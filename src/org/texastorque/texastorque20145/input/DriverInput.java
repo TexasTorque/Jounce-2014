@@ -17,6 +17,8 @@ public class DriverInput extends InputSystem {
         leftSpeed = driver.getLeftYAxis() + driver.getRightXAxis();
         rightSpeed = driver.getLeftYAxis() - driver.getRightXAxis();
         gear = driver.getLeftBumper();
+        
+        //Shooter
     }
 
 }
