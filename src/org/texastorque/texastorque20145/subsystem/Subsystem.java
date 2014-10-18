@@ -1,4 +1,4 @@
-package org.texastorque.texastorque20145;
+package org.texastorque.texastorque20145.subsystem;
 
 import org.texastorque.texastorque20145.input.InputSystem;
 
