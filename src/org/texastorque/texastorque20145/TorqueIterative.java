@@ -124,7 +124,13 @@ public abstract class TorqueIterative extends RobotBase {
 
         public void run() {
             while (true) {
-                continuous();
+                if (isAutonomous())
+                {
+                    autonomousContinuous();
+                } else if (isOperatorControl())
+                {
+                    teleopContinuous();
+                }
                 try {
                     Thread.sleep(4);
                 } catch (InterruptedException ex) {
@@ -155,8 +161,22 @@ public abstract class TorqueIterative extends RobotBase {
     }
 
     /* ----------- Overridable continuous code -----------------*/
-    public void continuous() {
-        System.out.println("Default TorqueIterativeRobot.continuous() method!");
+    private boolean tpcFirstRun = true;
+
+    public void teleopContinuous() {
+        if (tpcFirstRun) {
+            System.out.println("Default TorqueIterativeRobot.teleopContinuous() method!");
+            tpcFirstRun = false;
+        }
+    }
+
+    private boolean apcFirstRun = true;
+
+    public void autonomousContinuous() {
+        if (apcFirstRun) {
+            System.out.println("Default TorqueIterativeRobot.autonomousContinuous() method!");
+            apcFirstRun = false;
+        }
     }
 
     /* ----------- Overridable periodic code -----------------*/
