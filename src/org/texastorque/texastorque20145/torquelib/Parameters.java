@@ -89,6 +89,10 @@ public class Parameters {
         public double getDouble() {
             return value;
         }
+        
+        public int getInt() {
+            return (int) value;
+        }
 
         public boolean getBoolean() {
             return value == 1;
