@@ -51,16 +51,28 @@ public abstract class FeedbackSystem implements Runnable {
     
     //Intake
     protected volatile double frontIntakeAngle;
+    protected volatile boolean frontIntakeHallEffect;
     
     public synchronized double getFrontIntakeAngle()
     {
         return frontIntakeAngle;
     }
     
+    public synchronized boolean getFrontIntakeHallEffect()
+    {
+        return frontIntakeHallEffect;
+    }
+    
     protected volatile double rearIntakeAngle;
+    protected volatile boolean rearIntakeHallEffect;
     
     public synchronized double getRearIntakeAngle()
     {
         return rearIntakeAngle;
+    }
+    
+    public synchronized boolean getRearIntakeHallEffect()
+    {
+        return rearIntakeHallEffect;
     }
 }

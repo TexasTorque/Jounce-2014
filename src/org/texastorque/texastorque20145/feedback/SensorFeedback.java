@@ -15,8 +15,8 @@ public class SensorFeedback extends FeedbackSystem {
      //Intake
     private TorqueQuadrature frontIntakeEncoder;
     private TorqueQuadrature rearIntakeEncoder;
-    private DigitalInput frontIntakeHallEffect;
-    private DigitalInput rearIntakeHallEffect;
+    private DigitalInput frontIntakeHallEffectSensor;
+    private DigitalInput rearIntakeHallEffectSensor;
     
     public void resetFrontIntakeAngle()
     {
@@ -47,8 +47,8 @@ public class SensorFeedback extends FeedbackSystem {
                 Constants.frontIntakeEncoderBPort.getInt(), true, CounterBase.EncodingType.k4X);
         rearIntakeEncoder = new TorqueQuadrature(Constants.rearIntakeEncoderAPort.getInt(),
                 Constants.rearIntakeEncoderBPort.getInt(), true, CounterBase.EncodingType.k4X);
-        frontIntakeHallEffect = new DigitalInput(Constants.frontIntakeHallEffect.getInt());
-        rearIntakeHallEffect = new DigitalInput(Constants.rearIntakeHallEffect.getInt());
+        frontIntakeHallEffectSensor = new DigitalInput(Constants.frontIntakeHallEffect.getInt());
+        rearIntakeHallEffectSensor = new DigitalInput(Constants.rearIntakeHallEffect.getInt());
         
         frontIntakeEncoder.start();
         rearIntakeEncoder.start();
@@ -78,6 +78,9 @@ public class SensorFeedback extends FeedbackSystem {
         //Intake
         frontIntakeEncoder.calc();
         rearIntakeEncoder.calc();
+        
+        frontIntakeHallEffect = frontIntakeHallEffectSensor.get();
+        rearIntakeHallEffect = rearIntakeHallEffectSensor.get();
 
         //Temporary. Will need to be multiplied by scalar and added to offset to get degrees.
         frontIntakeAngle = frontIntakeEncoder.getPosition();
