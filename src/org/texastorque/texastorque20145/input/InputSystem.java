@@ -62,6 +62,7 @@ public abstract class InputSystem implements Runnable {
     protected volatile int rearIntakeState;
     protected volatile double manualRearAngleSpeed;
     protected volatile boolean rearIntakeManual;
+    protected volatile boolean backWallOpen;
 
     public synchronized int getRearIntakeState() {
         return rearIntakeState;
@@ -74,5 +75,10 @@ public abstract class InputSystem implements Runnable {
     public synchronized boolean rearIntakeIsManual()
     {
         return rearIntakeManual;
+    }
+    
+    public synchronized boolean backWallIsOpen()
+    {
+        return backWallOpen;
     }
 }

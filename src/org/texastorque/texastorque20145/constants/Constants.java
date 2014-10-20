@@ -56,5 +56,6 @@ public class Constants {
     public final static Constant rearIntakeHallEffect = new Constant("I_RearIntakeHallEffect", 7);
     public final static Constant rearIntakeAnglePort = new Constant("I_RearIntakeAnglePort", 7);
     public final static Constant rearIntakeRollerPort = new Constant("I_RearIntakeRollerPort", 8);
+    public final static Constant backWallSolenoidPort = new Constant("I_BackWallSolenoidPort", 4);
     
 }
