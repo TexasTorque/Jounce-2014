@@ -12,6 +12,9 @@ public class FrontIntake extends Subsystem {
     public final static int UP = 3;
     public final static int MANUAL = 4;
     
+    private double targetAngle;
+    private double currentAngle;
+    
     private Motor angleMotor;
     private Motor rollerMotor;
     
@@ -24,5 +27,24 @@ public class FrontIntake extends Subsystem {
     public void update()
     {
         state = input.getFrontIntakeState();
+        
+        switch (state)
+        {
+            case DOWN:
+                targetAngle = Constants.downAngle.getDouble();
+                break;
+            case INTAKE:
+                targetAngle = Constants.intakeFrontAngle.getDouble();
+                break;
+            case OUTTAKE:
+                targetAngle = Constants.outtakeFrontAngle.getDouble();
+                break;
+            case UP:
+                targetAngle = Constants.upAngle.getDouble();
+                break;
+            default:
+                targetAngle = Constants.downAngle.getDouble();
+                break;
+        }
     }
 }
