@@ -18,12 +18,17 @@ public class Constants {
     public final static Constant shooterAPort = new Constant("S_ShooterAPort", 3);
     public final static Constant shooterBPort = new Constant("S_ShooterBPort", 4);
     public final static Constant shooterCounterPort = new Constant("S_ShooterCouner", 1);
+    
     public final static Constant fenderRPM = new Constant("S_FenderRPM", 4500);
     public final static Constant farRPM = new Constant("S_FarRPM", 5000);
     public final static Constant runFarRPM = new Constant("S_RunFarRPM", 5000);
     public final static Constant inboundRPM = new Constant("S_InboundRPM", 1000);
     public final static Constant lowGoalRPM = new Constant("S_LowGoalRPM", 500);
     public final static Constant offRPM = new Constant("S_OffRPM", 0);
+    
+    public final static Constant openLoopFenderPower = new Constant("S_OpenLoopFenderPower", 0.8);
+    public final static Constant openLoopInboundPower = new Constant("S_OpenLoopInboundPower", -0.2);
+    public final static Constant openLoopLowGoalPower = new Constant("S_OpenLoopLowGoalPower", 0.2);
     
     //  -----  Clapper  -----
     public final static Constant clapperFrontPort = new Constant("C_ClapperFrontPort", 2);

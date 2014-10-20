@@ -10,13 +10,14 @@ public class Shooter extends Subsystem {
     private Motor shooterBMotor;
 
     private double targetRPM;
-    private boolean reverse;
+    private double openLoopPower;
 
-    private final static int OFF = 0;
-    private final static int FENDER = 1;
-    private final static int FAR = 2;
-    private final static int RUN_FAR = 3;
-    private final static int INBOUND = 4;
+    public final static int OFF = 0;
+    public final static int FENDER = 1;
+    public final static int FAR = 2;
+    public final static int RUN_FAR = 3;
+    public final static int INBOUND = 4;
+    public final static int LOW_GOAL = 5; 
 
     public Shooter() {
         shooterAMotor = new Motor(new Victor(Constants.shooterAPort.getInt()), true);
@@ -25,33 +26,44 @@ public class Shooter extends Subsystem {
 
     public void update() {
         state = input.getShooterState();
-        
+
         switch (state) {
             case FENDER:
+                openLoopPower = Constants.openLoopFenderPower.getDouble();
                 targetRPM = Constants.fenderRPM.getDouble();
-                reverse = false;
                 break;
             case FAR:
+                openLoopPower = 0.0;
                 targetRPM = Constants.farRPM.getDouble();
-                reverse = false;
                 break;
             case RUN_FAR:
+                openLoopPower = 0.0;
                 targetRPM = Constants.runFarRPM.getDouble();
-                reverse = false;
                 break;
             case INBOUND:
+                openLoopPower = Constants.openLoopInboundPower.getDouble();
                 targetRPM = Constants.inboundRPM.getDouble();
-                reverse = true;
                 break;
             case OFF:
+                openLoopPower = 0.0;
                 targetRPM = Constants.offRPM.getDouble();
-                reverse = false;
+                break;
+            case LOW_GOAL:
+                openLoopPower = Constants.openLoopLowGoalPower.getDouble();
+                targetRPM = Constants.lowGoalRPM.getDouble();
                 break;
             default:
                 targetRPM = Constants.offRPM.getDouble();
-                reverse = false;
+                openLoopPower = 0.0;
                 break;
         }
         
+        if (input.shooterIsManual())
+        {
+            shooterAMotor.set(openLoopPower);
+            shooterBMotor.set(openLoopPower);
+        } else {
+            //control loop output
+        }
     }
 }
