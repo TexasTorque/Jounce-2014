@@ -9,8 +9,6 @@ public class Shooter extends Subsystem {
     private Motor shooterAMotor;
     private Motor shooterBMotor;
 
-    private volatile int shooterState;
-
     private double targetRPM;
     private boolean reverse;
 
@@ -25,12 +23,10 @@ public class Shooter extends Subsystem {
         shooterBMotor = new Motor(new Victor(Constants.shooterBPort.getInt()), false);
     }
 
-    public void setState(int state) {
-        shooterState = state;
-    }
-
     public void update() {
-        switch (shooterState) {
+        state = input.getShooterState();
+        
+        switch (state) {
             case FENDER:
                 targetRPM = Constants.fenderRPM.getDouble();
                 reverse = false;

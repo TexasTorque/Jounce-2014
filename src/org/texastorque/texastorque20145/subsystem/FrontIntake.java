@@ -23,6 +23,6 @@ public class FrontIntake extends Subsystem {
     
     public void update()
     {
-        
+        state = input.getFrontIntakeState();
     }
 }

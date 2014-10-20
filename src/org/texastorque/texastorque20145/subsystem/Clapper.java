@@ -8,8 +8,6 @@ public class Clapper extends Subsystem {
     private Solenoid frontClapper;
     private Solenoid rearClapper;
     
-    private volatile int clapperState;
-    
     public final static int DOWN = 0;
     public final static int FRONT_OUTTAKE = 1;
     public final static int REAR_OUTTAKE = 2;
@@ -21,14 +19,11 @@ public class Clapper extends Subsystem {
         rearClapper = new Solenoid(Constants.clapperRearPort.getInt());
     }
     
-    public void setState(int state)
-    {
-        clapperState = state;
-    }
-    
     public void update()
     {
-        switch (clapperState)
+        state = input.getClapperState();
+        
+        switch (state)
         {
             case DOWN:
                 frontClapper.set(false);

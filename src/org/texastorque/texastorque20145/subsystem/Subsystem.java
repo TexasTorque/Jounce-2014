@@ -8,6 +8,7 @@ public abstract class Subsystem {
     protected FeedbackSystem feedback;
     
     protected boolean outputEnabled;
+    protected volatile int state;
     
     public void enableOutput(boolean enable)
     {
