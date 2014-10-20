@@ -10,7 +10,7 @@ public class FrontIntake extends Subsystem {
     public final static int INTAKE = 1;
     public final static int OUTTAKE = 2;
     public final static int UP = 3;
-    public final static int MANUAL = 4;
+    public final static int PUSH_OTHER_SIDE = 4;
     
     private double targetAngle;
     private double currentAngle;
@@ -32,19 +32,35 @@ public class FrontIntake extends Subsystem {
         {
             case DOWN:
                 targetAngle = Constants.downAngle.getDouble();
+                rollerMotor.set(0.0);
                 break;
             case INTAKE:
                 targetAngle = Constants.intakeFrontAngle.getDouble();
+                rollerMotor.set(1.0);
                 break;
             case OUTTAKE:
                 targetAngle = Constants.outtakeFrontAngle.getDouble();
+                rollerMotor.set(-1.0);
                 break;
             case UP:
                 targetAngle = Constants.upAngle.getDouble();
+                rollerMotor.set(0.0);
+                break;
+            case PUSH_OTHER_SIDE:
+                targetAngle = Constants.inAngle.getDouble();
+                rollerMotor.set(1.0);
                 break;
             default:
                 targetAngle = Constants.downAngle.getDouble();
+                rollerMotor.set(0.0);
                 break;
+        }
+        
+        if (input.frontIntakeIsManual())
+        {
+            angleMotor.set(input.getFrontAngleManualSpeed());
+        } else {
+            //control loop output
         }
     }
 }
