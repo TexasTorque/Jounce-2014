@@ -11,7 +11,7 @@ public class DriverInput extends InputSystem {
 
     private GenericController driver;
     private GenericController operator;
-    
+
     //Drivebase
     double oldWheel, quickStopAccumulator, negInertiaAccumulator;
 
@@ -21,12 +21,10 @@ public class DriverInput extends InputSystem {
     }
 
     public void run() {
-        backWallOpen = false;
-
         //Drivebase
         double throttle = -driver.getLeftYAxis();
         double wheel = -driver.getRightXAxis();
-        boolean isHighGear = driver.getLeftBumper();
+        isHighGear = driver.getLeftBumper();
         boolean isQuickTurn = driver.getRightBumper();
 
         double wheelNonLinearity;
@@ -92,10 +90,8 @@ public class DriverInput extends InputSystem {
         if (isQuickTurn) {
             if (Math.abs(linearPower) < 0.2) {
                 double alpha = 0.1;
-                if (Math.abs(wheel) > 1)
-                {
-                    if (wheel < 0)
-                    {
+                if (Math.abs(wheel) > 1) {
+                    if (wheel < 0) {
                         wheel = -1;
                     } else {
                         wheel = 1;
@@ -135,7 +131,9 @@ public class DriverInput extends InputSystem {
             leftSpeed += overPower * (-1.0 - rightSpeed);
             rightSpeed = -1.0;
         }
-        
+
+        backWallOpen = false;
+
         //Shooter
         if (operator.getRightTrigger() && operator.getXButton()) {
             shooterState = Shooter.LOW_GOAL;

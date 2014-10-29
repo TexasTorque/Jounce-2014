@@ -5,7 +5,7 @@ public abstract class InputSystem implements Runnable {
     //Drivebase
     protected volatile double leftSpeed;
     protected volatile double rightSpeed;
-    protected volatile boolean gear;
+    protected volatile boolean isHighGear;
 
     public synchronized double getLeftSpeed() {
         return leftSpeed;
@@ -16,7 +16,7 @@ public abstract class InputSystem implements Runnable {
     }
 
     public synchronized boolean getGear() {
-        return gear;
+        return isHighGear;
     }
 
     //Shooter
