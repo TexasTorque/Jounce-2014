@@ -25,10 +25,17 @@ public class Robot extends TorqueIterative {
     
     public void teleopInit() {
         drivebase.setInputSystem(input);
+        drivebase.enableOutput(true);
     }
 
     public void teleopPeriodic() {
-
+        drivebase.update();
+    }
+    
+    public void teleopContinuous()
+    {
+        input.run();
+        
     }
 
     public void testPeriodic() {

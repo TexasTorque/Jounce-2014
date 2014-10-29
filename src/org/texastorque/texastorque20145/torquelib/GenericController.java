@@ -80,7 +80,7 @@ public class GenericController extends Joystick {
         if (isLogitechController) {
             return scaleInput(getRawAxis(3));
         } else {
-            return scaleInput(getRawAxis(4));
+            return scaleInput(getRawAxis(5));
         }
     }
 

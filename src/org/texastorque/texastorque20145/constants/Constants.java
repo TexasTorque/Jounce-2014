@@ -13,6 +13,8 @@ public class Constants {
     public final static Constant leftDriveEncoderBPort = new Constant("D_LeftDriveEncoderB", 9);
     public final static Constant rightDriveEncoderAPort = new Constant("D_RightDriveEncoderA", 10);
     public final static Constant rightDriveEncoderBPort = new Constant("D_RightDriveEncoderB", 11);
+    public final static Constant lowGearSensitivity = new Constant("D_LowSensitivity", 0.75);
+    public final static Constant highGearSensitivity = new Constant("D_HighSensitivity", 0.75);
     
     //  -----  Shooter  -----
     public final static Constant shooterAPort = new Constant("S_ShooterAPort", 3);
