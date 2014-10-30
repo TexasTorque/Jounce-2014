@@ -18,10 +18,6 @@ public class Robot extends TorqueIterative {
         
         input = new DriverInput();
     }
-
-    public void autonomousPeriodic() {
-
-    }
     
     public void teleopInit() {
         drivebase.setInputSystem(input);
@@ -35,11 +31,6 @@ public class Robot extends TorqueIterative {
     public void teleopContinuous()
     {
         input.run();
-        
-    }
-
-    public void testPeriodic() {
-
     }
 
 }
