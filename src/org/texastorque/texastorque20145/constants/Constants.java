@@ -8,7 +8,7 @@ public class Constants {
     //  -----  Drivebase  -----
     public final static Constant leftDrivePort = new Constant("D_LeftPort", 1);
     public final static Constant rightDrivePort = new Constant("D_RightPort", 9);
-    public final static Constant shifterPort = new Constant("D_Shifter", 1);
+    public final static Constant shifterPort = new Constant("D_Shifter", 5);
     public final static Constant leftDriveEncoderAPort = new Constant("D_LeftDriveEncoderA", 8);
     public final static Constant leftDriveEncoderBPort = new Constant("D_LeftDriveEncoderB", 9);
     public final static Constant rightDriveEncoderAPort = new Constant("D_RightDriveEncoderA", 10);
