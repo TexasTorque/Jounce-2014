@@ -54,7 +54,10 @@ public class Robot extends TorqueIterative {
         
         drivebase.setInputSystem(autoInput);
         
+        drivebase.enableOutput(true);
+        
         AutoThread = new Thread(autoInput);
+        AutoThread.start();
     }
 
     public void autonomousPeriodic() {

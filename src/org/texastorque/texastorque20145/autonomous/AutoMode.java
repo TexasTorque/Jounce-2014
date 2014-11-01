@@ -11,4 +11,13 @@ public abstract class AutoMode extends InputSystem {
     {
         feedback = fb;
     }
+    
+    public void wait(double seconds)
+    {
+        try {
+            Thread.sleep((long) (seconds * 1000));
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
