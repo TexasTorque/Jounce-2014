@@ -18,10 +18,10 @@ public class Parameters {
     /**
      * Make a new Parameters loader.
      *
-     * @param filePath String path of parameters file.
+     * @param fPath String path of parameters file.
      */
-    public Parameters(String filePath) {
-        filePath = "file:///ni-rt/startup/params.txt";
+    public Parameters(String fPath) {
+        filePath = fPath;
 
         constants = new Vector();
     }

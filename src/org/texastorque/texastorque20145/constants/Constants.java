@@ -5,21 +5,25 @@ import org.texastorque.texastorque20145.torquelib.Parameters.Constant;
 public class Constants {
     public final static Constant autoMode = new Constant("A_Mode", 0);
     
+    //  -----  Compressor -----
+    public final static Constant compressorSwitch = new Constant("P_Switch", 1);
+    public final static Constant compressorRelay = new Constant("P_Relay", 8);
+    
     //  -----  Drivebase  -----
     public final static Constant leftDrivePort = new Constant("D_LeftPort", 1);
     public final static Constant rightDrivePort = new Constant("D_RightPort", 9);
     public final static Constant shifterPort = new Constant("D_Shifter", 5);
-    public final static Constant leftDriveEncoderAPort = new Constant("D_LeftDriveEncoderA", 8);
-    public final static Constant leftDriveEncoderBPort = new Constant("D_LeftDriveEncoderB", 9);
-    public final static Constant rightDriveEncoderAPort = new Constant("D_RightDriveEncoderA", 10);
-    public final static Constant rightDriveEncoderBPort = new Constant("D_RightDriveEncoderB", 11);
+    public final static Constant leftDriveEncoderAPort = new Constant("D_LeftDriveEncoderA", 5);
+    public final static Constant leftDriveEncoderBPort = new Constant("D_LeftDriveEncoderB", 2);
+    public final static Constant rightDriveEncoderAPort = new Constant("D_RightDriveEncoderA", 3);
+    public final static Constant rightDriveEncoderBPort = new Constant("D_RightDriveEncoderB", 4);
     public final static Constant lowGearSensitivity = new Constant("D_LowSensitivity", 0.75);
     public final static Constant highGearSensitivity = new Constant("D_HighSensitivity", 0.75);
     
     //  -----  Shooter  -----
     public final static Constant shooterAPort = new Constant("S_ShooterAPort", 3);
     public final static Constant shooterBPort = new Constant("S_ShooterBPort", 4);
-    public final static Constant shooterCounterPort = new Constant("S_ShooterCouner", 1);
+    public final static Constant shooterCounterPort = new Constant("S_ShooterCouner", 6);
     
     public final static Constant fenderRPM = new Constant("S_FenderRPM", 4500);
     public final static Constant farRPM = new Constant("S_FarRPM", 5000);
@@ -46,16 +50,16 @@ public class Constants {
     public final static Constant outtakeRearAngle = new Constant("I_OuttakeRearAngle", 0);
     
     //Front
-    public final static Constant frontIntakeEncoderAPort = new Constant("I_FrontIntakeEncoderA", 2);
-    public final static Constant frontIntakeEncoderBPort = new Constant("I_FrontIntakeEncoderB", 3);
-    public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 4);
+    public final static Constant frontIntakeEncoderAPort = new Constant("I_FrontIntakeEncoderA", 7);
+    public final static Constant frontIntakeEncoderBPort = new Constant("I_FrontIntakeEncoderB", 8);
+    public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 9);
     public final static Constant frontIntakeAnglePort = new Constant("I_FrontIntakeAnglePort", 5);
     public final static Constant frontIntakeRollerPort = new Constant("I_FrontIntakeRollerPort", 6);
     
     //Rear
-    public final static Constant rearIntakeEncoderAPort = new Constant("I_RearIntakeEncoderA", 5);
-    public final static Constant rearIntakeEncoderBPort = new Constant("I_RearIntakeEncoderB", 6);
-    public final static Constant rearIntakeHallEffect = new Constant("I_RearIntakeHallEffect", 7);
+    public final static Constant rearIntakeEncoderAPort = new Constant("I_RearIntakeEncoderA", 10);
+    public final static Constant rearIntakeEncoderBPort = new Constant("I_RearIntakeEncoderB", 11);
+    public final static Constant rearIntakeHallEffect = new Constant("I_RearIntakeHallEffect", 12);
     public final static Constant rearIntakeAnglePort = new Constant("I_RearIntakeAnglePort", 7);
     public final static Constant rearIntakeRollerPort = new Constant("I_RearIntakeRollerPort", 8);
     public final static Constant backWallSolenoidPort = new Constant("I_BackWallSolenoidPort", 4);
