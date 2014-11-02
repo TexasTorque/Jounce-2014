@@ -3,6 +3,7 @@ package org.texastorque.texastorque20145.subsystem;
 import edu.wpi.first.wpilibj.Victor;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.torquelib.Motor;
+import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
 
 public class FrontIntake extends Subsystem {
     
@@ -18,10 +19,14 @@ public class FrontIntake extends Subsystem {
     private Motor angleMotor;
     private Motor rollerMotor;
     
+    private TorquePID anglePID;
+    
     public FrontIntake()
     {
         angleMotor = new Motor(new Victor(Constants.frontIntakeAnglePort.getInt()), false);
         rollerMotor = new Motor(new Victor(Constants.frontIntakeRollerPort.getInt()), false);
+        
+        anglePID = new TorquePID();
     }
     
     public void update()
@@ -60,7 +65,12 @@ public class FrontIntake extends Subsystem {
         {
             angleMotor.set(input.getFrontAngleManualSpeed());
         } else {
-            //control loop output
+            double feedForward = Math.cos(feedback.getFrontIntakeAngle()) * Constants.frontIntakeKff.getDouble();
+            
+            anglePID.setSetpoint(targetAngle);
+            double pid = anglePID.calculate(currentAngle);
+            
+            angleMotor.set(feedForward + pid);
         }
     }
 }

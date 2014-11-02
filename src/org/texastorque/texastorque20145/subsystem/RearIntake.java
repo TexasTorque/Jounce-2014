@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.torquelib.Motor;
+import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
 
 public class RearIntake extends Subsystem {
     
@@ -21,11 +22,15 @@ public class RearIntake extends Subsystem {
     private Motor rollerMotor;
     private Solenoid backWallSolenoid;
     
+    private TorquePID anglePID;
+    
     public RearIntake()
     {
         angleMotor = new Motor(new Victor(Constants.rearIntakeAnglePort.getInt()), false);
         rollerMotor  = new Motor(new Victor(Constants.rearIntakeRollerPort.getInt()), false);
         backWallSolenoid = new Solenoid(Constants.backWallSolenoidPort.getInt());
+        
+        anglePID = new TorquePID();
     }
     
     public void update()
@@ -67,7 +72,12 @@ public class RearIntake extends Subsystem {
         {
             angleMotor.set(input.getFrontAngleManualSpeed());
         } else {
-            //control loop output
+            double feedForward = Math.cos(feedback.getRearIntakeAngle()) * Constants.rearIntakeKff.getDouble();
+            
+            anglePID.setSetpoint(targetAngle);
+            double pid = anglePID.calculate(currentAngle);
+            
+            angleMotor.set(feedForward + pid);
         }
         
     }
