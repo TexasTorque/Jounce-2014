@@ -3,6 +3,7 @@ package org.texastorque.texastorque20145.subsystem;
 import edu.wpi.first.wpilibj.Victor;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.torquelib.Motor;
+import org.texastorque.texastorque20145.torquelib.controlloop.BangBang;
 
 public class Shooter extends Subsystem {
 
@@ -10,7 +11,10 @@ public class Shooter extends Subsystem {
     private Motor shooterBMotor;
 
     private double targetRPM;
+    private double currentRPM;
     private double openLoopPower;
+    
+    private BangBang rpmController;
 
     public final static int OFF = 0;
     public final static int FENDER = 1;
@@ -18,10 +22,12 @@ public class Shooter extends Subsystem {
     public final static int RUN_FAR = 3;
     public final static int INBOUND = 4;
     public final static int LOW_GOAL = 5; 
-
+    
     public Shooter() {
         shooterAMotor = new Motor(new Victor(Constants.shooterAPort.getInt()), true);
         shooterBMotor = new Motor(new Victor(Constants.shooterBPort.getInt()), false);
+        
+        rpmController = new BangBang();
     }
 
     public void update() {
@@ -63,7 +69,19 @@ public class Shooter extends Subsystem {
             shooterAMotor.set(openLoopPower);
             shooterBMotor.set(openLoopPower);
         } else {
-            //control loop output
+            currentRPM = feedback.getShooterRPM();
+            
+            if (state == INBOUND)
+            {
+                shooterAMotor.set(Constants.inboundPower.getDouble());
+                shooterBMotor.set(Constants.inboundPower.getDouble());
+            } else {
+                rpmController.setSetpoint(targetRPM);
+                double power = rpmController.calculate(currentRPM);
+                shooterAMotor.set(power);
+                shooterBMotor.set(power);
+            }
         }
     }
+    
 }
