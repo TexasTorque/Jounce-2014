@@ -17,6 +17,7 @@ public class Constants {
     public final static Constant leftDriveEncoderBPort = new Constant("D_LeftDriveEncoderB", 2);
     public final static Constant rightDriveEncoderAPort = new Constant("D_RightDriveEncoderA", 3);
     public final static Constant rightDriveEncoderBPort = new Constant("D_RightDriveEncoderB", 4);
+    
     public final static Constant lowGearSensitivity = new Constant("D_LowSensitivity", 0.75);
     public final static Constant highGearSensitivity = new Constant("D_HighSensitivity", 0.75);
     
@@ -49,12 +50,21 @@ public class Constants {
     public final static Constant outtakeFrontAngle = new Constant("I_OuttakeFrontAngle", 0);
     public final static Constant outtakeRearAngle = new Constant("I_OuttakeRearAngle", 0);
     
+    public final static Constant intakeDegreesPerClick = new Constant("I_DegreesPerClick", 0.07);
+    public final static Constant intakeZeroAngle = new Constant("I_ZeroAngle", 90);
+    
     //Front
     public final static Constant frontIntakeEncoderAPort = new Constant("I_FrontIntakeEncoderA", 7);
     public final static Constant frontIntakeEncoderBPort = new Constant("I_FrontIntakeEncoderB", 8);
     public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 9);
     public final static Constant frontIntakeAnglePort = new Constant("I_FrontIntakeAnglePort", 5);
     public final static Constant frontIntakeRollerPort = new Constant("I_FrontIntakeRollerPort", 6);
+    
+    public final static Constant frontIntakeKff = new Constant("I_FrontKff", 0.0);
+    public final static Constant frontIntakeKp = new Constant("I_FrontKp", 0.0);
+    public final static Constant frontIntakeKi = new Constant("I_FrontKi", 0.0);
+    public final static Constant frontIntakeKd = new Constant("I_FrontKd", 0.0);
+    public final static Constant frontIntakeE = new Constant("I_FrontE", 0.0);
     
     //Rear
     public final static Constant rearIntakeEncoderAPort = new Constant("I_RearIntakeEncoderA", 10);
@@ -63,5 +73,13 @@ public class Constants {
     public final static Constant rearIntakeAnglePort = new Constant("I_RearIntakeAnglePort", 7);
     public final static Constant rearIntakeRollerPort = new Constant("I_RearIntakeRollerPort", 8);
     public final static Constant backWallSolenoidPort = new Constant("I_BackWallSolenoidPort", 4);
+    
+    public final static Constant rearIntakeBackWallDifference = new Constant("I_BackWallDifference", 20);
+    
+    public final static Constant rearIntakeKff = new Constant("I_RearKff", 0.0);
+    public final static Constant rearIntakeKp = new Constant("I_RearKp", 0.0);
+    public final static Constant rearIntakeKi = new Constant("I_RearKi", 0.0);
+    public final static Constant rearIntakeKd = new Constant("I_RearKd", 0.0);
+    public final static Constant rearIntakeE = new Constant("I_RearE", 0.0);
     
 }

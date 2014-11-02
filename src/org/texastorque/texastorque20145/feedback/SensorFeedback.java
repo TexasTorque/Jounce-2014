@@ -82,9 +82,15 @@ public class SensorFeedback extends FeedbackSystem {
         frontIntakeHallEffect = frontIntakeHallEffectSensor.get();
         rearIntakeHallEffect = rearIntakeHallEffectSensor.get();
 
-        //Temporary. Will need to be multiplied by scalar and added to offset to get degrees.
-        frontIntakeAngle = frontIntakeEncoder.getPosition();
-        rearIntakeAngle = rearIntakeEncoder.getPosition();
+        frontIntakeAngle = frontIntakeEncoder.getPosition() * Constants.intakeDegreesPerClick.getDouble()
+                         + Constants.intakeZeroAngle.getDouble();
+        rearIntakeAngle = rearIntakeEncoder.getPosition() * Constants.intakeDegreesPerClick.getDouble()
+                         + Constants.intakeZeroAngle.getDouble();
+        
+        if (backWallOpen)
+        {
+            rearIntakeAngle -= Constants.rearIntakeBackWallDifference.getDouble();
+        }
         
         //Shooter
         flywheelcounter.calc();

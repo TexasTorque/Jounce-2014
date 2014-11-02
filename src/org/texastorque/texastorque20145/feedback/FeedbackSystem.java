@@ -65,6 +65,7 @@ public abstract class FeedbackSystem implements Runnable {
     
     protected volatile double rearIntakeAngle;
     protected volatile boolean rearIntakeHallEffect;
+    protected volatile boolean backWallOpen;
     
     public synchronized double getRearIntakeAngle()
     {
@@ -74,5 +75,10 @@ public abstract class FeedbackSystem implements Runnable {
     public synchronized boolean getRearIntakeHallEffect()
     {
         return rearIntakeHallEffect;
+    }
+    
+    public synchronized void backWallIsOpen(boolean open)
+    {
+        backWallOpen = open;
     }
 }
