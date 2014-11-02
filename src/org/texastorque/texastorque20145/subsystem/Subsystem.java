@@ -26,4 +26,9 @@ public abstract class Subsystem {
     }
     
     public abstract void update();
+    
+    public void updateGains()
+    {
+        
+    }
 }

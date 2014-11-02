@@ -79,6 +79,13 @@ public class RearIntake extends Subsystem {
             
             angleMotor.set(feedForward + pid);
         }
-        
+    }
+    
+    public void updateGains()
+    {
+        anglePID.setPIDGains(Constants.rearIntakeKp.getDouble(), 
+                             Constants.rearIntakeKi.getDouble(),
+                             Constants.rearIntakeKd.getDouble());
+        anglePID.setEpsilon(Constants.rearIntakeE.getDouble());
     }
 }

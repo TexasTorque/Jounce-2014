@@ -73,4 +73,12 @@ public class FrontIntake extends Subsystem {
             angleMotor.set(feedForward + pid);
         }
     }
+    
+    public void updateGains()
+    {
+        anglePID.setPIDGains(Constants.frontIntakeKp.getDouble(), 
+                             Constants.frontIntakeKi.getDouble(),
+                             Constants.frontIntakeKd.getDouble());
+        anglePID.setEpsilon(Constants.frontIntakeE.getDouble());
+    }
 }
