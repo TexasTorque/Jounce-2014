@@ -67,13 +67,13 @@ public class SensorFeedback extends FeedbackSystem {
         rightDriveEncoder.calc();
         
         //Temporary. Needs to be multiplied by scalars to get real units. (e.g ft/s)
-        leftPosition = leftDriveEncoder.getPosition();
-        leftVelocity = leftDriveEncoder.getRate();
-        leftAcceleration = leftDriveEncoder.getAcceleration();
+        leftPosition = leftDriveEncoder.getPosition() * Constants.feetPerClick.getDouble();
+        leftVelocity = leftDriveEncoder.getRate() * Constants.feetPerClick.getDouble();
+        leftAcceleration = leftDriveEncoder.getAcceleration() * Constants.feetPerClick.getDouble();
         
-        rightPosition = rightDriveEncoder.getPosition();
-        rightVelocity = rightDriveEncoder.getRate();
-        rightAcceleration = rightDriveEncoder.getAcceleration();
+        rightPosition = rightDriveEncoder.getPosition() * Constants.feetPerClick.getDouble();
+        rightVelocity = rightDriveEncoder.getRate() * Constants.feetPerClick.getDouble();
+        rightAcceleration = rightDriveEncoder.getAcceleration() * Constants.feetPerClick.getDouble();
         
         //Intake
         frontIntakeEncoder.calc();

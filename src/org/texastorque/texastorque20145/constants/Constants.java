@@ -18,6 +18,8 @@ public class Constants {
     public final static Constant rightDriveEncoderAPort = new Constant("D_RightDriveEncoderA", 3);
     public final static Constant rightDriveEncoderBPort = new Constant("D_RightDriveEncoderB", 4);
     
+    public final static Constant feetPerClick = new Constant("D_FeetPerClick", 0.003403392);;
+    
     public final static Constant lowGearSensitivity = new Constant("D_LowSensitivity", 0.75);
     public final static Constant highGearSensitivity = new Constant("D_HighSensitivity", 0.75);
     
