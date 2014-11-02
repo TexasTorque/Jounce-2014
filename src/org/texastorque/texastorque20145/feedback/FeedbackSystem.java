@@ -44,9 +44,20 @@ public abstract class FeedbackSystem implements Runnable {
 
     //Shooter
     protected volatile double shooterRPM;
+    protected volatile boolean shooterSpunUp;
 
     public synchronized double getShooterRPM() {
         return shooterRPM;
+    }
+    
+    public synchronized void setShooterSpunUp(boolean spunUp)
+    {
+        shooterSpunUp = spunUp;
+    }
+    
+    public synchronized boolean isShooterSpunUp()
+    {
+        return shooterSpunUp;
     }
     
     //Intake

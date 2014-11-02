@@ -64,6 +64,8 @@ public class Shooter extends Subsystem {
                 break;
         }
         
+        feedback.setShooterSpunUp(rpmController.isDone());
+        
         if (input.shooterIsManual())
         {
             shooterAMotor.set(openLoopPower);
@@ -83,5 +85,8 @@ public class Shooter extends Subsystem {
             }
         }
     }
-    
+
+    public void updateGains() {
+        rpmController.setDoneRange(Constants.rpmDoneRange.getInt());
+    }
 }
