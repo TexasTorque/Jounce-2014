@@ -12,6 +12,8 @@ public class FrontIntake extends Subsystem {
     public final static int OUTTAKE = 2;
     public final static int UP = 3;
     public final static int PUSH_OTHER_SIDE = 4;
+    public final static int CARRY = 5;
+    public final static int HOLD = 6;
     
     private double targetAngle;
     private double currentAngle;
@@ -54,6 +56,19 @@ public class FrontIntake extends Subsystem {
             case PUSH_OTHER_SIDE:
                 targetAngle = Constants.inAngle.getDouble();
                 rollerMotor.set(1.0);
+                break;
+            case CARRY:
+                targetAngle = Constants.frontCarryAngle.getDouble();
+                if (feedback.getFrontBumperSwitch())
+                {
+                    rollerMotor.set(0.0);
+                } else {
+                    rollerMotor.set(Constants.carryPower.getDouble());
+                }
+                break;
+            case HOLD:
+                targetAngle = Constants.frontHoldAngle.getDouble();
+                rollerMotor.set(0.0);
                 break;
             default:
                 targetAngle = Constants.downAngle.getDouble();

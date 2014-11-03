@@ -54,14 +54,20 @@ public class Constants {
     public final static Constant intakeRearAngle = new Constant("I_IntakeRearAngle", 0);
     public final static Constant outtakeFrontAngle = new Constant("I_OuttakeFrontAngle", 0);
     public final static Constant outtakeRearAngle = new Constant("I_OuttakeRearAngle", 0);
+    public final static Constant frontCarryAngle = new Constant("I_FrontCarryAngle", 90);
+    public final static Constant rearCarryAngle = new Constant("I_RearCarryAngle", 90);
+    public final static Constant frontHoldAngle = new Constant("I_FrontHoldAngle", 90);
+    public final static Constant rearHoldAngle = new Constant("I_RearHoldAngle", 90);
     
     public final static Constant intakeDegreesPerClick = new Constant("I_DegreesPerClick", 0.07);
     public final static Constant intakeZeroAngle = new Constant("I_ZeroAngle", 90);
+    public final static Constant carryPower = new Constant("I_CarryPower", 0.5);
     
     //Front
     public final static Constant frontIntakeEncoderAPort = new Constant("I_FrontIntakeEncoderA", 7);
     public final static Constant frontIntakeEncoderBPort = new Constant("I_FrontIntakeEncoderB", 8);
     public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 9);
+    public final static Constant frontIntakeBumperSwitchPort = new Constant("I_FrontBumperPort", 13);
     public final static Constant frontIntakeAnglePort = new Constant("I_FrontIntakeAnglePort", 5);
     public final static Constant frontIntakeRollerPort = new Constant("I_FrontIntakeRollerPort", 6);
     
@@ -75,6 +81,7 @@ public class Constants {
     public final static Constant rearIntakeEncoderAPort = new Constant("I_RearIntakeEncoderA", 10);
     public final static Constant rearIntakeEncoderBPort = new Constant("I_RearIntakeEncoderB", 11);
     public final static Constant rearIntakeHallEffect = new Constant("I_RearIntakeHallEffect", 12);
+    public final static Constant rearIntakeBumperSwitchPort = new Constant("I_RearBumperPort", 14);
     public final static Constant rearIntakeAnglePort = new Constant("I_RearIntakeAnglePort", 7);
     public final static Constant rearIntakeRollerPort = new Constant("I_RearIntakeRollerPort", 8);
     public final static Constant backWallSolenoidPort = new Constant("I_BackWallSolenoidPort", 4);
