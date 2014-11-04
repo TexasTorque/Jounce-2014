@@ -15,10 +15,16 @@ public class RearIntake extends Subsystem {
     public final static int PUSH_OTHER_SIDE = 4;
     public final static int CARRY = 5;
     public final static int HOLD = 6;
+    public final static int CALIBRATE = 7;
 
     private double targetAngle;
     private double currentAngle;
     private boolean backWallPosition;
+
+    private double calibrationOffset;
+    private boolean calibrated;
+    private boolean firstPhase;
+    private boolean passedHallEffect;
 
     private Motor angleMotor;
     private Motor rollerMotor;
@@ -32,6 +38,11 @@ public class RearIntake extends Subsystem {
         backWallSolenoid = new Solenoid(Constants.backWallSolenoidPort.getInt());
 
         anglePID = new TorquePID();
+
+        calibrated = false;
+        calibrationOffset = -5.0;
+        firstPhase = true;
+        passedHallEffect = false;
     }
 
     public void update() {
@@ -39,6 +50,10 @@ public class RearIntake extends Subsystem {
         backWallSolenoid.set(backWallPosition);
 
         state = input.getRearIntakeState();
+
+        if (!calibrated) {
+            state = CALIBRATE;
+        }
 
         switch (state) {
             case DOWN:
@@ -73,6 +88,10 @@ public class RearIntake extends Subsystem {
                 targetAngle = Constants.rearHoldAngle.getDouble();
                 rollerMotor.set(0.0);
                 break;
+            case CALIBRATE:
+                zero();
+                anglePID.setSetpoint(targetAngle);
+                break;
             default:
                 targetAngle = Constants.downAngle.getDouble();
                 rollerMotor.set(0.0);
@@ -88,6 +107,28 @@ public class RearIntake extends Subsystem {
             double pid = anglePID.calculate(currentAngle);
 
             angleMotor.set(feedForward + pid);
+        }
+    }
+
+    private void zero() {
+        if (firstPhase) {
+            anglePID.setSetpoint(Constants.intakeZeroAngle.getDouble());
+        } else {
+            anglePID.setSetpoint(Constants.intakeZeroAngle.getDouble() + calibrationOffset);
+        }
+        if (!feedback.getRearIntakeHallEffect() && anglePID.isDone()) {
+            firstPhase = false;
+            if (Math.abs(calibrationOffset) < 0.5) {
+                calibrated = true;
+                return;
+            }
+            calibrationOffset *= -2;
+        } else if (feedback.getRearIntakeHallEffect() && anglePID.isDone()) {
+            calibrated = true;
+        } else if (feedback.getRearIntakeHallEffect()) {
+            firstPhase = false;
+            //reset angle
+            calibrationOffset /= -2;
         }
     }
 
