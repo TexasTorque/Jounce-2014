@@ -26,7 +26,7 @@ public class Clapper extends Subsystem {
         state = input.getClapperState();
 
         SmartDashboard.putNumber("clapstate", state);
-        
+
         switch (state) {
             case DOWN:
                 frontClapper.set(false);
@@ -41,15 +41,15 @@ public class Clapper extends Subsystem {
                 rearClapper.set(false);
                 break;
             case SHOOT:
-                //if (feedback.isShooterSpunUp()) {
-                if (!frontClapper.get()) {
-                    frontUpTime = Timer.getFPGATimestamp();
+                if (feedback.isShooterSpunUp()) {
+                    if (!frontClapper.get()) {
+                        frontUpTime = Timer.getFPGATimestamp();
+                    }
+                    frontClapper.set(true);
+                    if (Timer.getFPGATimestamp() - Constants.shootDifference.getDouble() > frontUpTime) {
+                        rearClapper.set(true);
+                    }
                 }
-                frontClapper.set(true);
-                if (Timer.getFPGATimestamp() - Constants.shootDifference.getDouble() > frontUpTime) {
-                    rearClapper.set(true);
-                }
-                //}
                 break;
             default:
                 frontClapper.set(false);

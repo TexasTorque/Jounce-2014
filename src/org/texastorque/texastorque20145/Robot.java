@@ -11,6 +11,7 @@ import org.texastorque.texastorque20145.input.DriverInput;
 import org.texastorque.texastorque20145.input.InputSystem;
 import org.texastorque.texastorque20145.subsystem.Clapper;
 import org.texastorque.texastorque20145.subsystem.Drivebase;
+import org.texastorque.texastorque20145.subsystem.Shooter;
 import org.texastorque.texastorque20145.torquelib.Parameters;
 
 public class Robot extends TorqueIterative {
@@ -18,7 +19,9 @@ public class Robot extends TorqueIterative {
     Parameters params;
 
     Drivebase drivebase;
+    Shooter shooter;
     Clapper clapper;
+    
     Compressor compressor;
 
     InputSystem input;
@@ -32,7 +35,9 @@ public class Robot extends TorqueIterative {
         params = new Parameters();
 
         drivebase = new Drivebase();
+        shooter = new Shooter();
         clapper = new Clapper();
+        
         compressor = new Compressor(1, Constants.compressorSwitch.getInt(), 1, Constants.compressorRelay.getInt());
 
         input = new DriverInput();
@@ -46,11 +51,16 @@ public class Robot extends TorqueIterative {
 
         drivebase.setInputSystem(input);
         drivebase.enableOutput(true);
+        
+        shooter.setInputSystem(input);
+        shooter.setFeedbackSystem(feedback);
+        
         clapper.setInputSystem(input);
     }
 
     public void teleopPeriodic() {
         drivebase.update();
+        shooter.update();
         clapper.update();
     }
 

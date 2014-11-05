@@ -64,6 +64,7 @@ public class Shooter extends Subsystem {
                 break;
         }
         
+        rpmController.setSetpoint(targetRPM);
         feedback.setShooterSpunUp(rpmController.isDone());
         
         if (input.shooterIsManual())
@@ -78,7 +79,6 @@ public class Shooter extends Subsystem {
                 shooterAMotor.set(Constants.inboundPower.getDouble());
                 shooterBMotor.set(Constants.inboundPower.getDouble());
             } else {
-                rpmController.setSetpoint(targetRPM);
                 double power = rpmController.calculate(currentRPM);
                 shooterAMotor.set(power);
                 shooterBMotor.set(power);
