@@ -120,15 +120,20 @@ public class RearIntake extends Subsystem {
             firstPhase = false;
             if (Math.abs(calibrationOffset) < 0.5) {
                 calibrated = true;
-                return;
             }
-            calibrationOffset *= -2;
+            if (passedHallEffect) {
+                calibrationOffset *= -1;
+                passedHallEffect = false;
+            } else {
+                calibrationOffset *= -2;
+            }
         } else if (feedback.getRearIntakeHallEffect() && anglePID.isDone()) {
             calibrated = true;
         } else if (feedback.getRearIntakeHallEffect()) {
             firstPhase = false;
             //reset angle
-            calibrationOffset /= -2;
+            calibrationOffset /= 2;
+            passedHallEffect = true;
         }
     }
 
