@@ -36,7 +36,7 @@ public class Robot extends TorqueIterative {
         compressor = new Compressor(1, Constants.compressorSwitch.getInt(), 1, Constants.compressorRelay.getInt());
 
         input = new DriverInput();
-        
+
         sensorFeedback = new SensorFeedback();
         feedback = sensorFeedback;
     }
@@ -56,10 +56,8 @@ public class Robot extends TorqueIterative {
 
     public void teleopContinuous() {
         input.run();
-        if (feedback != null) {
-            feedback.run();
-            SmartDashboard.putNumber("rpm", feedback.getShooterRPM());
-        }
+        feedback.run();
+        SmartDashboard.putNumber("rpm", feedback.getShooterRPM());
     }
 
     public void autonomousInit() {

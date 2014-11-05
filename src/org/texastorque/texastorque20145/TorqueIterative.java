@@ -27,6 +27,9 @@ public abstract class TorqueIterative extends RobotBase {
         System.err.println("UNEXPECTED RETURN FROM startCompetition() IS NORMAL");
     }
 
+    private boolean m_autonomousInitialized;
+    private boolean m_teleopInitialized;
+
     /**
      * This class provides the default IterativeRobot functionality.
      *
@@ -35,8 +38,6 @@ public abstract class TorqueIterative extends RobotBase {
     private class Periodic implements Runnable {
 
         private boolean m_disabledInitialized;
-        private boolean m_autonomousInitialized;
-        private boolean m_teleopInitialized;
         private boolean m_testInitialized;
         boolean didDisabledPeriodic = false;
         boolean didAutonomousPeriodic = false;
@@ -124,11 +125,9 @@ public abstract class TorqueIterative extends RobotBase {
 
         public void run() {
             while (true) {
-                if (isAutonomous())
-                {
+                if (isAutonomous() && m_autonomousInitialized) {
                     autonomousContinuous();
-                } else if (isOperatorControl())
-                {
+                } else if (isOperatorControl() && m_teleopInitialized) {
                     teleopContinuous();
                 }
                 try {
