@@ -1,6 +1,8 @@
 package org.texastorque.texastorque20145.subsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
 
 public class Clapper extends Subsystem {
@@ -13,6 +15,8 @@ public class Clapper extends Subsystem {
     public final static int REAR_OUTTAKE = 2;
     public final static int SHOOT = 3;
 
+    private double frontUpTime;
+
     public Clapper() {
         frontClapper = new Solenoid(Constants.clapperFrontPort.getInt());
         rearClapper = new Solenoid(Constants.clapperRearPort.getInt());
@@ -21,6 +25,8 @@ public class Clapper extends Subsystem {
     public void update() {
         state = input.getClapperState();
 
+        SmartDashboard.putNumber("clapstate", state);
+        
         switch (state) {
             case DOWN:
                 frontClapper.set(false);
@@ -35,10 +41,15 @@ public class Clapper extends Subsystem {
                 rearClapper.set(false);
                 break;
             case SHOOT:
-                if (feedback.isShooterSpunUp()) {
-                    frontClapper.set(true);
+                //if (feedback.isShooterSpunUp()) {
+                if (!frontClapper.get()) {
+                    frontUpTime = Timer.getFPGATimestamp();
+                }
+                frontClapper.set(true);
+                if (Timer.getFPGATimestamp() - Constants.shootDifference.getDouble() > frontUpTime) {
                     rearClapper.set(true);
                 }
+                //}
                 break;
             default:
                 frontClapper.set(false);

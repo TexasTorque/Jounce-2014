@@ -53,7 +53,7 @@ public class TorqueCounter extends TorqueEncoder {
         currentPosition = encoder.get();
         rate = filter.getAverage();
     }
-
+    
     public void reset() {
         filter.reset();
         encoder.reset();

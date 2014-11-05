@@ -144,7 +144,7 @@ public class GenericController extends Joystick {
         if (isLogitechController) {
             return getRawButton(8);
         } else {
-            return (getRawAxis(3) < -0.2);
+            return (getRawAxis(4) > 0.5);
         }
     }
 

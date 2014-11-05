@@ -40,4 +40,9 @@ public abstract class TorqueEncoder {
     {
         return acceleration;
     }
+    
+    public double getPeriod()
+    {
+        return encoder.getPeriod();
+    }
 }

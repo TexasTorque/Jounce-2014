@@ -46,6 +46,8 @@ public class Constants {
     public final static Constant clapperFrontPort = new Constant("C_ClapperFrontPort", 5);
     public final static Constant clapperRearPort = new Constant("C_ClapperRearPort", 3);
     
+    public final static Constant shootDifference = new Constant("C_UpDifference", 0.1);
+    
     //  ----- Intake  -----
     public final static Constant downAngle = new Constant("I_DownAngle", -90);
     public final static Constant upAngle = new Constant("I_UpAngle", 90);

@@ -102,6 +102,6 @@ public class SensorFeedback extends FeedbackSystem {
         //Shooter
         flywheelcounter.calc();
         
-        shooterRPM = flywheelcounter.getRate() * 60;
+        shooterRPM = 60 / flywheelcounter.getPeriod();
     }
 }

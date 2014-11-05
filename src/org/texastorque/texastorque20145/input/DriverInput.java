@@ -1,5 +1,6 @@
 package org.texastorque.texastorque20145.input;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.subsystem.Clapper;
 import org.texastorque.texastorque20145.subsystem.FrontIntake;
@@ -155,6 +156,7 @@ public class DriverInput extends InputSystem {
         }
 
         //Clapper
+        SmartDashboard.putBoolean("dtrigger", driver.getRightTrigger());
         if (driver.getRightTrigger()) {
             clapperState = Clapper.SHOOT;
         } else if (operator.getLeftTrigger()) {
