@@ -78,11 +78,6 @@ public class RearIntake extends Subsystem {
                 break;
             case CARRY:
                 targetAngle = Constants.rearCarryAngle.getDouble();
-                if (feedback.getRearBumperSwitch()) {
-                    rollerMotor.set(0.0);
-                } else {
-                    rollerMotor.set(Constants.carryPower.getDouble());
-                }
                 break;
             case HOLD:
                 targetAngle = Constants.rearHoldAngle.getDouble();

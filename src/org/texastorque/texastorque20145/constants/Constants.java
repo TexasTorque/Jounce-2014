@@ -69,7 +69,6 @@ public class Constants {
     public final static Constant frontIntakeEncoderAPort = new Constant("I_FrontIntakeEncoderA", 6);
     public final static Constant frontIntakeEncoderBPort = new Constant("I_FrontIntakeEncoderB", 7);
     public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 8);
-    public final static Constant frontIntakeBumperSwitchPort = new Constant("I_FrontBumperPort", 9);
     public final static Constant frontIntakeAnglePort = new Constant("I_FrontIntakeAnglePort", 5);
     public final static Constant frontIntakeRollerPort = new Constant("I_FrontIntakeRollerPort", 6);
     
@@ -83,7 +82,6 @@ public class Constants {
     public final static Constant rearIntakeEncoderAPort = new Constant("I_RearIntakeEncoderA", 11);
     public final static Constant rearIntakeEncoderBPort = new Constant("I_RearIntakeEncoderB", 12);
     public final static Constant rearIntakeHallEffect = new Constant("I_RearIntakeHallEffect", 13);
-    public final static Constant rearIntakeBumperSwitchPort = new Constant("I_RearBumperPort", 14);
     public final static Constant rearIntakeAnglePort = new Constant("I_RearIntakeAnglePort", 7);
     public final static Constant rearIntakeRollerPort = new Constant("I_RearIntakeRollerPort", 8);
     public final static Constant backWallSolenoidPort = new Constant("I_BackWallSolenoidPort", 4);

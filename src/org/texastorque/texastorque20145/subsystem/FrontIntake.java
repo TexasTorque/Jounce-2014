@@ -59,12 +59,6 @@ public class FrontIntake extends Subsystem {
                 break;
             case CARRY:
                 targetAngle = Constants.frontCarryAngle.getDouble();
-                if (feedback.getFrontBumperSwitch())
-                {
-                    rollerMotor.set(0.0);
-                } else {
-                    rollerMotor.set(Constants.carryPower.getDouble());
-                }
                 break;
             case HOLD:
                 targetAngle = Constants.frontHoldAngle.getDouble();

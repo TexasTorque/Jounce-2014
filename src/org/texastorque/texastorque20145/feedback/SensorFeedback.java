@@ -52,8 +52,6 @@ public class SensorFeedback extends FeedbackSystem {
                 Constants.rearIntakeEncoderBPort.getInt(), true, CounterBase.EncodingType.k4X);
         frontIntakeHallEffectSensor = new DigitalInput(Constants.frontIntakeHallEffect.getInt());
         rearIntakeHallEffectSensor = new DigitalInput(Constants.rearIntakeHallEffect.getInt());
-        frontIntakeBumperSwitch = new DigitalInput(Constants.frontIntakeBumperSwitchPort.getInt());
-        rearIntakeBumperSwitch = new DigitalInput(Constants.rearIntakeBumperSwitchPort.getInt());
         
         frontIntakeEncoder.start();
         rearIntakeEncoder.start();
@@ -87,9 +85,6 @@ public class SensorFeedback extends FeedbackSystem {
         frontIntakeHallEffect = frontIntakeHallEffectSensor.get();
         rearIntakeHallEffect = rearIntakeHallEffectSensor.get();
         
-        frontBumperStatus = frontIntakeBumperSwitch.get();
-        rearBumperStatus = rearIntakeBumperSwitch.get();
-
         frontIntakeAngle = frontIntakeEncoder.getPosition() * Constants.intakeDegreesPerClick.getDouble()
                          + Constants.intakeZeroAngle.getDouble();
         rearIntakeAngle = rearIntakeEncoder.getPosition() * Constants.intakeDegreesPerClick.getDouble()
