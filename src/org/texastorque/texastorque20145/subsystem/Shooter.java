@@ -24,8 +24,8 @@ public class Shooter extends Subsystem {
     public final static int LOW_GOAL = 5; 
     
     public Shooter() {
-        shooterAMotor = new Motor(new Victor(Constants.shooterAPort.getInt()), true);
-        shooterBMotor = new Motor(new Victor(Constants.shooterBPort.getInt()), false);
+        shooterAMotor = new Motor(new Victor(Constants.shooterAPort.getInt()), false);
+        shooterBMotor = new Motor(new Victor(Constants.shooterBPort.getInt()), true);
         
         rpmController = new BangBang();
     }

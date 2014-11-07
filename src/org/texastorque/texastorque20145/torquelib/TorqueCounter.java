@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TorqueCounter extends TorqueEncoder {
 
@@ -46,12 +47,14 @@ public class TorqueCounter extends TorqueEncoder {
     }
 
     public void calc() {
-        double currentRate = 1.0 / encoder.getPeriod();
-        filter.setInput(currentRate);
+        double currentrate = 1 / encoder.getPeriod();
+        filter.setInput(currentrate);
         filter.run();
-
+        
         currentPosition = encoder.get();
         rate = filter.getAverage();
+        
+        SmartDashboard.putNumber("pos", currentPosition);
     }
     
     public void reset() {

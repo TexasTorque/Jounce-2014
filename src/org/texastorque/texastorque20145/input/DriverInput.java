@@ -136,10 +136,11 @@ public class DriverInput extends InputSystem {
         backWallOpen = false;
 
         //Shooter
-        if (operator.getRightTrigger() && operator.getXButton()) {
-            shooterState = Shooter.LOW_GOAL;
-            backWallOpen = true;
-        } else if (operator.getYButton()) {
+//        if (operator.getRightTrigger() && operator.getXButton()) {
+//            shooterState = Shooter.LOW_GOAL;
+//            backWallOpen = true;
+//        } else 
+            if (operator.getYButton()) {
             shooterState = Shooter.FAR;
             backWallOpen = true;
         } else if (operator.getBButton()) {

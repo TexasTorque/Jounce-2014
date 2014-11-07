@@ -32,6 +32,7 @@ public class Robot extends TorqueIterative {
     Thread AutoThread;
 
     public void robotInit() {
+        System.out.println("yo");
         params = new Parameters();
 
         drivebase = new Drivebase();
@@ -47,6 +48,7 @@ public class Robot extends TorqueIterative {
     }
 
     public void teleopInit() {
+        params.load();
         compressor.start();
 
         drivebase.setInputSystem(input);
@@ -54,8 +56,11 @@ public class Robot extends TorqueIterative {
         
         shooter.setInputSystem(input);
         shooter.setFeedbackSystem(feedback);
+        shooter.updateGains();
         
         clapper.setInputSystem(input);
+        clapper.setFeedbackSystem(feedback);
+        clapper.updateGains();
     }
 
     public void teleopPeriodic() {

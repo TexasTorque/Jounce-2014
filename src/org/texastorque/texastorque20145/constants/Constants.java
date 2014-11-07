@@ -24,8 +24,8 @@ public class Constants {
     public final static Constant highGearSensitivity = new Constant("D_HighSensitivity", 0.75);
     
     //  -----  Shooter  -----
-    public final static Constant shooterAPort = new Constant("S_ShooterAPort", 3);
-    public final static Constant shooterBPort = new Constant("S_ShooterBPort", 6);
+    public final static Constant shooterAPort = new Constant("S_ShooterAPort", 6);
+    public final static Constant shooterBPort = new Constant("S_ShooterBPort", 4);
     public final static Constant shooterCounterPort = new Constant("S_ShooterCounter", 10);
     
     public final static Constant fenderRPM = new Constant("S_FenderRPM", 4500);

@@ -31,7 +31,8 @@ public class SensorFeedback extends FeedbackSystem {
     }
     
     //Shooter
-    private TorqueCounter flywheelcounter;
+    private TorqueCounter flyWheelCounter;
+    private double previousRPM;
     
     public SensorFeedback()
     {
@@ -58,10 +59,10 @@ public class SensorFeedback extends FeedbackSystem {
         rearIntakeEncoder.start();
         
         //Shooter
-        flywheelcounter = new TorqueCounter(Constants.shooterCounterPort.getInt());
-        flywheelcounter.setFilterSize(10);
-        
-        flywheelcounter.start();
+        flyWheelCounter = new TorqueCounter(Constants.shooterCounterPort.getInt());
+        flyWheelCounter.setFilterSize(3);
+        flyWheelCounter.start();
+        previousRPM = 0.0;
     }
     
     public void run()
@@ -100,8 +101,9 @@ public class SensorFeedback extends FeedbackSystem {
         }
         
         //Shooter
-        flywheelcounter.calc();
-        
-        shooterRPM = 60 / flywheelcounter.getPeriod();
+        flyWheelCounter.calc();
+        double currentRpm = flyWheelCounter.getRate() * 60 / 100;
+        shooterRPM = (currentRpm < 20000) ? currentRpm : previousRPM;
+        previousRPM = shooterRPM;
     }
 }
