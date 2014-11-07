@@ -2,6 +2,7 @@ package org.texastorque.texastorque20145.subsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.torquelib.Motor;
 import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
@@ -93,16 +94,19 @@ public class RearIntake extends Subsystem {
                 break;
         }
 
+        currentAngle = feedback.getRearIntakeAngle();
+        
         if (input.rearIntakeIsManual()) {
             angleMotor.set(input.getRearAngleManualSpeed());
         } else {
-            double feedForward = Math.cos(feedback.getRearIntakeAngle()) * Constants.rearIntakeKff.getDouble();
-
+            double feedForward = Math.cos(currentAngle) * Constants.rearIntakeKff.getDouble();
             anglePID.setSetpoint(targetAngle);
             double pid = anglePID.calculate(currentAngle);
 
             angleMotor.set(feedForward + pid);
         }
+        
+        SmartDashboard.putNumber("rearAngle", currentAngle);
     }
 
     private void zero() {

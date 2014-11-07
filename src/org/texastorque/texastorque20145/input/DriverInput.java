@@ -186,5 +186,7 @@ public class DriverInput extends InputSystem {
             frontIntakeState = FrontIntake.DOWN;
             rearIntakeState = RearIntake.DOWN;
         }
+        
+        manualRearAngleSpeed = operator.getLeftYAxis();
     }
 }

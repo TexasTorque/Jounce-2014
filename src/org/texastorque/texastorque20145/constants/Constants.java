@@ -26,7 +26,7 @@ public class Constants {
     //  -----  Shooter  -----
     public final static Constant shooterAPort = new Constant("S_ShooterAPort", 6);
     public final static Constant shooterBPort = new Constant("S_ShooterBPort", 4);
-    public final static Constant shooterCounterPort = new Constant("S_ShooterCounter", 10);
+    public final static Constant shooterCounterPort = new Constant("S_ShooterCounter", 12);
     
     public final static Constant fenderRPM = new Constant("S_FenderRPM", 4500);
     public final static Constant farRPM = new Constant("S_FarRPM", 5000);
@@ -61,7 +61,7 @@ public class Constants {
     public final static Constant frontHoldAngle = new Constant("I_FrontHoldAngle", 90);
     public final static Constant rearHoldAngle = new Constant("I_RearHoldAngle", 90);
     
-    public final static Constant intakeDegreesPerClick = new Constant("I_DegreesPerClick", 0.07);
+    public final static Constant intakeDegreesPerClick = new Constant("I_DegreesPerClick", 0.28);
     public final static Constant intakeZeroAngle = new Constant("I_ZeroAngle", 90);
     public final static Constant carryPower = new Constant("I_CarryPower", 0.5);
     
@@ -79,12 +79,12 @@ public class Constants {
     public final static Constant frontIntakeE = new Constant("I_FrontE", 0.0);
     
     //Rear
-    public final static Constant rearIntakeEncoderAPort = new Constant("I_RearIntakeEncoderA", 11);
-    public final static Constant rearIntakeEncoderBPort = new Constant("I_RearIntakeEncoderB", 12);
+    public final static Constant rearIntakeEncoderAPort = new Constant("I_RearIntakeEncoderA", 10);
+    public final static Constant rearIntakeEncoderBPort = new Constant("I_RearIntakeEncoderB", 11);
     public final static Constant rearIntakeHallEffect = new Constant("I_RearIntakeHallEffect", 13);
     public final static Constant rearIntakeAnglePort = new Constant("I_RearIntakeAnglePort", 7);
     public final static Constant rearIntakeRollerPort = new Constant("I_RearIntakeRollerPort", 2);
-    public final static Constant backWallSolenoidPort = new Constant("I_BackWallSolenoidPort", 4);
+    public final static Constant backWallSolenoidPort = new Constant("I_BackWallSolenoidPort", 1);
     
     public final static Constant rearIntakeBackWallDifference = new Constant("I_BackWallDifference", 20);
     

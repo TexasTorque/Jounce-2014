@@ -74,6 +74,7 @@ public class Robot extends TorqueIterative {
         drivebase.update();
         shooter.update();
         clapper.update();
+        rearIntake.update();
     }
 
     public void teleopContinuous() {
@@ -104,7 +105,8 @@ public class Robot extends TorqueIterative {
     
     public void testInit()
     {
-        
+        feedback.resetFrontIntakeAngle();
+        feedback.resetRearIntakeAngle();
     }
 
 }
