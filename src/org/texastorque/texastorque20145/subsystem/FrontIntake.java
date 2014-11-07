@@ -1,6 +1,7 @@
 package org.texastorque.texastorque20145.subsystem;
 
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.torquelib.Motor;
 import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
@@ -89,5 +90,12 @@ public class FrontIntake extends Subsystem {
                              Constants.frontIntakeKi.getDouble(),
                              Constants.frontIntakeKd.getDouble());
         anglePID.setEpsilon(Constants.frontIntakeE.getDouble());
+    }
+    
+    public void pushToDashboard()
+    {
+        SmartDashboard.putNumber("FrontAngle", currentAngle);
+        SmartDashboard.putNumber("FrontTargetAngle", targetAngle);
+        SmartDashboard.putNumber("FrontIntakeState", state);
     }
 }

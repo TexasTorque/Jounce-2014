@@ -25,8 +25,6 @@ public class Clapper extends Subsystem {
     public void update() {
         state = input.getClapperState();
 
-        SmartDashboard.putNumber("clapstate", state);
-
         switch (state) {
             case DOWN:
                 frontClapper.set(false);
@@ -56,5 +54,9 @@ public class Clapper extends Subsystem {
                 rearClapper.set(false);
                 break;
         }
+    }
+
+    public void pushToDashboard() {
+        SmartDashboard.putNumber("ClapperState", state);
     }
 }

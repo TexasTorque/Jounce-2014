@@ -142,4 +142,12 @@ public class RearIntake extends Subsystem {
                 Constants.rearIntakeKd.getDouble());
         anglePID.setEpsilon(Constants.rearIntakeE.getDouble());
     }
+    
+    public void pushToDashboard()
+    {
+        SmartDashboard.putNumber("RearAngle", currentAngle);
+        SmartDashboard.putNumber("RearTargetAngle", targetAngle);
+        SmartDashboard.putNumber("RearIntakeState", state);
+        SmartDashboard.putBoolean("BackWallOpen", input.backWallIsOpen());
+    }
 }

@@ -2,6 +2,7 @@ package org.texastorque.texastorque20145.subsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.torquelib.Motor;
 
@@ -27,4 +28,10 @@ public class Drivebase extends Subsystem {
         }
     }
 
+    public void pushToDashboard()
+    {
+        SmartDashboard.putNumber("LeftSpeed", input.getLeftSpeed());
+        SmartDashboard.putNumber("RightSpeed", input.getRightSpeed());
+        SmartDashboard.putBoolean("Gear", input.getGear());
+    }
 }

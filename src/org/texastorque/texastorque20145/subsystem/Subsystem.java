@@ -27,6 +27,8 @@ public abstract class Subsystem {
     
     public abstract void update();
     
+    public abstract void pushToDashboard();
+    
     public void updateGains()
     {
         
