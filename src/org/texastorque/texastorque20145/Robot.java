@@ -1,7 +1,6 @@
 package org.texastorque.texastorque20145;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.autonomous.AutoMode;
 import org.texastorque.texastorque20145.autonomous.AutoPicker;
 import org.texastorque.texastorque20145.constants.Constants;
@@ -11,6 +10,7 @@ import org.texastorque.texastorque20145.input.DriverInput;
 import org.texastorque.texastorque20145.input.InputSystem;
 import org.texastorque.texastorque20145.subsystem.Clapper;
 import org.texastorque.texastorque20145.subsystem.Drivebase;
+import org.texastorque.texastorque20145.subsystem.FrontIntake;
 import org.texastorque.texastorque20145.subsystem.RearIntake;
 import org.texastorque.texastorque20145.subsystem.Shooter;
 import org.texastorque.texastorque20145.torquelib.Parameters;
@@ -23,6 +23,7 @@ public class Robot extends TorqueIterative {
     Shooter shooter;
     Clapper clapper;
     RearIntake rearIntake;
+    FrontIntake frontIntake;
     
     Compressor compressor;
 
@@ -41,6 +42,7 @@ public class Robot extends TorqueIterative {
         shooter = new Shooter();
         clapper = new Clapper();
         rearIntake = new RearIntake();
+        frontIntake = new FrontIntake();
         
         compressor = new Compressor(1, Constants.compressorSwitch.getInt(), 1, Constants.compressorRelay.getInt());
 
@@ -68,6 +70,10 @@ public class Robot extends TorqueIterative {
         rearIntake.setInputSystem(input);
         rearIntake.setFeedbackSystem(feedback);
         rearIntake.updateGains();
+        
+        frontIntake.setInputSystem(input);
+        frontIntake.setFeedbackSystem(feedback);
+        frontIntake.updateGains();
     }
 
     public void teleopPeriodic() {
@@ -75,29 +81,29 @@ public class Robot extends TorqueIterative {
         shooter.update();
         clapper.update();
         rearIntake.update();
-        
-        drivebase.pushToDashboard();
-        shooter.pushToDashboard();
-        clapper.pushToDashboard();
-        rearIntake.pushToDashboard();
+        frontIntake.update();
     }
 
     public void teleopContinuous() {
         input.run();
         feedback.run();
-        SmartDashboard.putNumber("rpm", feedback.getShooterRPM());
+        
+        drivebase.pushToDashboard();
+        shooter.pushToDashboard();
+        clapper.pushToDashboard();
+        rearIntake.pushToDashboard();
+        frontIntake.pushToDashboard();
     }
 
     public void autonomousInit() {
         params.load();
+        
         feedback = sensorFeedback;
-        drivebase.setFeedbackSystem(feedback);
-
         AutoMode autoInput = AutoPicker.getAutoMode();
         autoInput.setFeedBackSystem(feedback);
-
+        
+        drivebase.setFeedbackSystem(feedback);
         drivebase.setInputSystem(autoInput);
-
         drivebase.enableOutput(true);
 
         AutoThread = new Thread(autoInput);
@@ -110,8 +116,6 @@ public class Robot extends TorqueIterative {
     
     public void testInit()
     {
-        feedback.resetFrontIntakeAngle();
-        feedback.resetRearIntakeAngle();
     }
 
 }
