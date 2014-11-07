@@ -105,8 +105,6 @@ public class RearIntake extends Subsystem {
 
             angleMotor.set(feedForward + pid);
         }
-        
-        SmartDashboard.putNumber("rearAngle", currentAngle);
     }
 
     private void zero() {

@@ -26,7 +26,7 @@ public class Constants {
     //  -----  Shooter  -----
     public final static Constant shooterAPort = new Constant("S_ShooterAPort", 6);
     public final static Constant shooterBPort = new Constant("S_ShooterBPort", 4);
-    public final static Constant shooterCounterPort = new Constant("S_ShooterCounter", 12);
+    public final static Constant shooterCounterPort = new Constant("S_ShooterCounter", 5);
     
     public final static Constant fenderRPM = new Constant("S_FenderRPM", 4500);
     public final static Constant farRPM = new Constant("S_FarRPM", 5000);
@@ -68,7 +68,7 @@ public class Constants {
     //Front
     public final static Constant frontIntakeEncoderAPort = new Constant("I_FrontIntakeEncoderA", 2);
     public final static Constant frontIntakeEncoderBPort = new Constant("I_FrontIntakeEncoderB", 3);
-    public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 5);
+    public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 14);
     public final static Constant frontIntakeAnglePort = new Constant("I_FrontIntakeAnglePort", 3);
     public final static Constant frontIntakeRollerPort = new Constant("I_FrontIntakeRollerPort", 5);
     

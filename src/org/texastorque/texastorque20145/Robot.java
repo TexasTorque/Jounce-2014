@@ -75,6 +75,11 @@ public class Robot extends TorqueIterative {
         shooter.update();
         clapper.update();
         rearIntake.update();
+        
+        drivebase.pushToDashboard();
+        shooter.pushToDashboard();
+        clapper.pushToDashboard();
+        rearIntake.pushToDashboard();
     }
 
     public void teleopContinuous() {
