@@ -132,7 +132,7 @@ public class DriverInput extends InputSystem {
             rightSpeed = -1.0;
         }
 
-        backWallOpen = false;
+        backWallOpen = true;
 
         //Shooter
 //        if (operator.getRightTrigger() && operator.getXButton()) {
