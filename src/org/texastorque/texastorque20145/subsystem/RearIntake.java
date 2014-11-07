@@ -22,7 +22,7 @@ public class RearIntake extends Subsystem {
     private boolean backWallPosition;
 
     private double calibrationOffset;
-    private boolean calibrated;
+    public boolean wantCalibrate;
     private boolean firstPhase;
     private boolean passedHallEffect;
 
@@ -39,7 +39,7 @@ public class RearIntake extends Subsystem {
 
         anglePID = new TorquePID();
 
-        calibrated = false;
+        wantCalibrate = false;
         calibrationOffset = -5.0;
         firstPhase = true;
         passedHallEffect = false;
@@ -51,7 +51,7 @@ public class RearIntake extends Subsystem {
 
         state = input.getRearIntakeState();
 
-        if (!calibrated) {
+        if (wantCalibrate) {
             state = CALIBRATE;
         }
 
@@ -119,7 +119,7 @@ public class RearIntake extends Subsystem {
         if (!feedback.getRearIntakeHallEffect() && anglePID.isDone()) {
             firstPhase = false;
             if (Math.abs(calibrationOffset) < 0.5) {
-                calibrated = true;
+                wantCalibrate = false;
             }
             if (passedHallEffect) {
                 calibrationOffset *= -1;
@@ -128,7 +128,7 @@ public class RearIntake extends Subsystem {
                 calibrationOffset *= -2;
             }
         } else if (feedback.getRearIntakeHallEffect() && anglePID.isDone()) {
-            calibrated = true;
+            wantCalibrate = false;
         } else if (feedback.getRearIntakeHallEffect()) {
             firstPhase = false;
             //reset angle
