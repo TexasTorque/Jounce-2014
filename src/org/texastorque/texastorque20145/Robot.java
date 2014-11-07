@@ -34,8 +34,8 @@ public class Robot extends TorqueIterative {
     Thread AutoThread;
 
     public void robotInit() {
-        System.out.println("yo");
         params = new Parameters();
+        params.load();
 
         drivebase = new Drivebase();
         shooter = new Shooter();
