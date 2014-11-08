@@ -58,7 +58,7 @@ public class SensorFeedback extends FeedbackSystem {
         
         //Shooter
         flyWheelCounter = new TorqueCounter(Constants.shooterCounterPort.getInt());
-        flyWheelCounter.setFilterSize(3);
+        flyWheelCounter.setFilterSize(Constants.rpmFilterSize.getInt());
         flyWheelCounter.start();
         previousRPM = 0.0;
     }

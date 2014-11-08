@@ -35,6 +35,7 @@ public class Constants {
     public final static Constant lowGoalRPM = new Constant("S_LowGoalRPM", 500);
     public final static Constant offRPM = new Constant("S_OffRPM", 0);
     public final static Constant rpmDoneRange = new Constant("S_DoneRange", 100);
+    public final static Constant rpmFilterSize = new Constant("S_RPMFilterSize", 10);
     
     public final static Constant inboundPower = new Constant("S_InboundPower", -0.35);
     
