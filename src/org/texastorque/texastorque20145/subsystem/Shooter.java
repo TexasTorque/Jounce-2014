@@ -23,6 +23,8 @@ public class Shooter extends Subsystem {
     public final static int RUN_FAR = 3;
     public final static int INBOUND = 4;
     public final static int LOW_GOAL = 5; 
+    public final static int INTAKE = 6;
+    public final static int OUTTAKE = 7;
     
     public Shooter() {
         shooterAMotor = new Motor(new Victor(Constants.shooterAPort.getInt()), false);
@@ -48,7 +50,7 @@ public class Shooter extends Subsystem {
                 targetRPM = Constants.runFarRPM.getDouble();
                 break;
             case INBOUND:
-                openLoopPower = Constants.openLoopInboundPower.getDouble();
+                openLoopPower = Constants.inboundPower.getDouble();
                 targetRPM = Constants.inboundRPM.getDouble();
                 break;
             case OFF:
@@ -58,6 +60,12 @@ public class Shooter extends Subsystem {
             case LOW_GOAL:
                 openLoopPower = Constants.openLoopLowGoalPower.getDouble();
                 targetRPM = Constants.lowGoalRPM.getDouble();
+                break;
+            case INTAKE:
+                openLoopPower = Constants.shooterIntakePower.getDouble();
+                break;
+            case OUTTAKE:
+                openLoopPower = Constants.shooterOuttakePower.getDouble();
                 break;
             default:
                 targetRPM = Constants.offRPM.getDouble();
@@ -75,10 +83,10 @@ public class Shooter extends Subsystem {
         } else {
             currentRPM = feedback.getShooterRPM();
             
-            if (state == INBOUND)
+            if (state == INBOUND || state == INTAKE || state == OUTTAKE)
             {
-                shooterAMotor.set(Constants.inboundPower.getDouble());
-                shooterBMotor.set(Constants.inboundPower.getDouble());
+                shooterAMotor.set(openLoopPower);
+                shooterBMotor.set(openLoopPower);
             } else {
                 double power = rpmController.calculate(currentRPM);
                 shooterAMotor.set(power);

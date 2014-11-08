@@ -139,7 +139,7 @@ public class DriverInput extends InputSystem {
 //            shooterState = Shooter.LOW_GOAL;
 //            backWallOpen = true;
 //        } else 
-            if (operator.getYButton()) {
+        if (operator.getYButton()) {
             shooterState = Shooter.FAR;
             backWallOpen = true;
         } else if (operator.getBButton()) {
@@ -151,6 +151,10 @@ public class DriverInput extends InputSystem {
         } else if (operator.getXButton()) {
             shooterState = Shooter.FENDER;
             backWallOpen = true;
+        } else if (operator.getRightBumper()) {
+            shooterState = Shooter.INTAKE;
+        } else if (operator.getRightTrigger()) {
+            shooterState = Shooter.OUTTAKE;
         } else {
             shooterState = Shooter.OFF;
         }
@@ -184,7 +188,7 @@ public class DriverInput extends InputSystem {
             frontIntakeState = FrontIntake.DOWN;
             rearIntakeState = RearIntake.DOWN;
         }
-        
+
         manualRearAngleSpeed = operator.getLeftYAxis();
     }
 }

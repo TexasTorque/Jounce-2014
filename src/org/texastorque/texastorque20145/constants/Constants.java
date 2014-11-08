@@ -38,9 +38,10 @@ public class Constants {
     public final static Constant rpmFilterSize = new Constant("S_RPMFilterSize", 10);
     
     public final static Constant inboundPower = new Constant("S_InboundPower", -0.35);
+    public final static Constant shooterIntakePower = new Constant("S_ShooterIntakePower", 0.3);
+    public final static Constant shooterOuttakePower = new Constant("S_ShooterOuttakePower", -0.3);
     
     public final static Constant openLoopFenderPower = new Constant("S_OpenLoopFenderPower", 0.8);
-    public final static Constant openLoopInboundPower = new Constant("S_OpenLoopInboundPower", -0.2);
     public final static Constant openLoopLowGoalPower = new Constant("S_OpenLoopLowGoalPower", 0.2);
     
     //  -----  Clapper  -----
