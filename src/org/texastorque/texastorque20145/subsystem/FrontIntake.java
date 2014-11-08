@@ -95,6 +95,7 @@ public class FrontIntake extends Subsystem {
                              Constants.frontIntakeKi.getDouble(),
                              Constants.frontIntakeKd.getDouble());
         anglePID.setEpsilon(Constants.frontIntakeE.getDouble());
+        anglePID.setDoneRange(Constants.intakeDoneRange.getDouble());
     }
     
     public void pushToDashboard()

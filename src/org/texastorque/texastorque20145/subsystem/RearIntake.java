@@ -143,7 +143,7 @@ public class RearIntake extends Subsystem {
                 Constants.rearIntakeKi.getDouble(),
                 Constants.rearIntakeKd.getDouble());
         anglePID.setEpsilon(Constants.rearIntakeE.getDouble());
-        anglePID.setDoneRange(3.0);
+        anglePID.setDoneRange(Constants.intakeDoneRange.getDouble());
     }
 
     public void pushToDashboard() {

@@ -62,6 +62,7 @@ public class Constants {
     public final static Constant rearCarryAngle = new Constant("I_RearCarryAngle", 90);
     public final static Constant frontHoldAngle = new Constant("I_FrontHoldAngle", 90);
     public final static Constant rearHoldAngle = new Constant("I_RearHoldAngle", 90);
+    public final static Constant intakeDoneRange = new Constant("I_DoneRange", 3.0);
     
     public final static Constant intakeDegreesPerClick = new Constant("I_DegreesPerClick", 0.28);
     public final static Constant intakeZeroAngle = new Constant("I_ZeroAngle", 90);

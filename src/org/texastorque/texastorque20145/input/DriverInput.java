@@ -181,6 +181,7 @@ public class DriverInput extends InputSystem {
         } else if (operator.getLeftTrigger()) {
             frontIntakeState = FrontIntake.PUSH_OTHER_SIDE;
             rearIntakeState = RearIntake.OUTTAKE;
+            backWallOpen = false;
         } else if (operator.getRightTrigger()) {
             frontIntakeState = FrontIntake.OUTTAKE;
             rearIntakeState = RearIntake.PUSH_OTHER_SIDE;
