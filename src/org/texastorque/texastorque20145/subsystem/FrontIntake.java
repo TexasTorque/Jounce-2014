@@ -71,16 +71,20 @@ public class FrontIntake extends Subsystem {
                 break;
         }
         
-        if (input.frontIntakeIsManual())
-        {
+        currentAngle = feedback.getFrontIntakeAngle();
+
+        if (input.frontIntakeIsManual()) {
             angleMotor.set(input.getFrontAngleManualSpeed());
         } else {
-            double feedForward = Math.cos(feedback.getFrontIntakeAngle()) * Constants.frontIntakeKff.getDouble();
-            
+            double feedForward = Math.cos(currentAngle) * Constants.frontIntakeKff.getDouble();
             anglePID.setSetpoint(targetAngle);
             double pid = anglePID.calculate(currentAngle);
-            
-            angleMotor.set(feedForward + pid);
+
+            if (state == DOWN && anglePID.isDone()) {
+                angleMotor.set(0.0);
+            } else {
+                angleMotor.set(feedForward + pid);
+            }
         }
     }
     

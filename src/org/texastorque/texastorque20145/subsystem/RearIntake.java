@@ -95,7 +95,7 @@ public class RearIntake extends Subsystem {
         }
 
         currentAngle = feedback.getRearIntakeAngle();
-        
+
         if (input.rearIntakeIsManual()) {
             angleMotor.set(input.getRearAngleManualSpeed());
         } else {
@@ -103,7 +103,11 @@ public class RearIntake extends Subsystem {
             anglePID.setSetpoint(targetAngle);
             double pid = anglePID.calculate(currentAngle);
 
-            angleMotor.set(feedForward + pid);
+            if (state == DOWN && anglePID.isDone()) {
+                angleMotor.set(0.0);
+            } else {
+                angleMotor.set(feedForward + pid);
+            }
         }
     }
 
@@ -139,10 +143,10 @@ public class RearIntake extends Subsystem {
                 Constants.rearIntakeKi.getDouble(),
                 Constants.rearIntakeKd.getDouble());
         anglePID.setEpsilon(Constants.rearIntakeE.getDouble());
+        anglePID.setDoneRange(3.0);
     }
-    
-    public void pushToDashboard()
-    {
+
+    public void pushToDashboard() {
         SmartDashboard.putNumber("RearAngle", currentAngle);
         SmartDashboard.putNumber("RearTargetAngle", targetAngle);
         SmartDashboard.putNumber("RearIntakeState", state);
