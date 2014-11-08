@@ -70,7 +70,7 @@ public class Constants {
     public final static Constant frontIntakeEncoderAPort = new Constant("I_FrontIntakeEncoderA", 3);
     public final static Constant frontIntakeEncoderBPort = new Constant("I_FrontIntakeEncoderB", 2);
     public final static Constant frontIntakeHallEffect = new Constant("I_FrontIntakeHallEffect", 14);
-    public final static Constant frontIntakeAnglePort = new Constant("I_FrontIntakeAnglePort", 3);
+    public final static Constant frontIntakeAnglePort = new Constant("I_FrontIntakeAnglePort", 10);
     public final static Constant frontIntakeRollerPort = new Constant("I_FrontIntakeRollerPort", 5);
     
     public final static Constant frontIntakeKff = new Constant("I_FrontKff", 0.0);

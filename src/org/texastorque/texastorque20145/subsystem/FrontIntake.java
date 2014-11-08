@@ -1,5 +1,6 @@
 package org.texastorque.texastorque20145.subsystem;
 
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
