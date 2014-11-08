@@ -190,6 +190,8 @@ public class DriverInput extends InputSystem {
             rearIntakeState = RearIntake.DOWN;
         }
 
+        resetFrontAngle = resetRearAngle = driver.getXButton();
+
         manualRearAngleSpeed = operator.getLeftYAxis();
     }
 }

@@ -24,10 +24,11 @@ public class Robot extends TorqueIterative {
     Clapper clapper;
     RearIntake rearIntake;
     FrontIntake frontIntake;
-    
+
     Compressor compressor;
 
     InputSystem input;
+    InputSystem driverInput;
 
     FeedbackSystem feedback;
     FeedbackSystem sensorFeedback;
@@ -43,10 +44,11 @@ public class Robot extends TorqueIterative {
         clapper = new Clapper();
         rearIntake = new RearIntake();
         frontIntake = new FrontIntake();
-        
+
         compressor = new Compressor(1, Constants.compressorSwitch.getInt(), 1, Constants.compressorRelay.getInt());
 
-        input = new DriverInput();
+        driverInput = new DriverInput();
+        input = driverInput;
 
         sensorFeedback = new SensorFeedback();
         feedback = sensorFeedback;
@@ -58,25 +60,28 @@ public class Robot extends TorqueIterative {
 
         drivebase.setInputSystem(input);
         drivebase.enableOutput(true);
-        
+
         shooter.setInputSystem(input);
         shooter.setFeedbackSystem(feedback);
         shooter.updateGains();
-        
+
         clapper.setInputSystem(input);
         clapper.setFeedbackSystem(feedback);
         clapper.updateGains();
-        
+
         rearIntake.setInputSystem(input);
         rearIntake.setFeedbackSystem(feedback);
         rearIntake.updateGains();
-        
+
         frontIntake.setInputSystem(input);
         frontIntake.setFeedbackSystem(feedback);
         frontIntake.updateGains();
     }
 
     public void teleopPeriodic() {
+        input.run();
+        feedback.run();
+        
         drivebase.update();
         shooter.update();
         clapper.update();
@@ -85,9 +90,6 @@ public class Robot extends TorqueIterative {
     }
 
     public void teleopContinuous() {
-        input.run();
-        feedback.run();
-        
         drivebase.pushToDashboard();
         shooter.pushToDashboard();
         clapper.pushToDashboard();
@@ -97,25 +99,89 @@ public class Robot extends TorqueIterative {
 
     public void autonomousInit() {
         params.load();
-        
+
         feedback = sensorFeedback;
         AutoMode autoInput = AutoPicker.getAutoMode();
         autoInput.setFeedBackSystem(feedback);
-        
+
         drivebase.setFeedbackSystem(feedback);
         drivebase.setInputSystem(autoInput);
         drivebase.enableOutput(true);
+        
+        shooter.setInputSystem(input);
+        shooter.setFeedbackSystem(feedback);
+        shooter.updateGains();
+
+        clapper.setInputSystem(input);
+        clapper.setFeedbackSystem(feedback);
+        clapper.updateGains();
+
+        rearIntake.setInputSystem(input);
+        rearIntake.setFeedbackSystem(feedback);
+        rearIntake.updateGains();
+
+        frontIntake.setInputSystem(input);
+        frontIntake.setFeedbackSystem(feedback);
+        frontIntake.updateGains();
 
         AutoThread = new Thread(autoInput);
         AutoThread.start();
     }
 
     public void autonomousPeriodic() {
+        input.run();
+        feedback.run();
+
         drivebase.update();
+        shooter.update();
+        clapper.update();
+        rearIntake.update();
+        frontIntake.update();
+    }
+
+    public void disabledInit() {
+        drivebase.setFeedbackSystem(feedback);
+        drivebase.setInputSystem(driverInput);
+        
+        shooter.setInputSystem(input);
+        shooter.setFeedbackSystem(feedback);
+        shooter.updateGains();
+
+        clapper.setInputSystem(input);
+        clapper.setFeedbackSystem(feedback);
+        clapper.updateGains();
+
+        rearIntake.setInputSystem(input);
+        rearIntake.setFeedbackSystem(feedback);
+        rearIntake.updateGains();
+
+        frontIntake.setInputSystem(input);
+        frontIntake.setFeedbackSystem(feedback);
+        frontIntake.updateGains();
+    }
+
+    public void disabledPeriodic() {
+        input.run();
+        feedback.run();
+        
+        if (driverInput.resetFrontIntakeAngle()) {
+            feedback.resetFrontIntakeAngle();
+        }
+        if (driverInput.resetRearIntakeAngle())
+        {
+            feedback.resetRearIntakeAngle();
+        }
     }
     
-    public void testInit()
-    {
+    public void disabledContinuous() {
+        drivebase.pushToDashboard();
+        shooter.pushToDashboard();
+        clapper.pushToDashboard();
+        rearIntake.pushToDashboard();
+        frontIntake.pushToDashboard();
+    }
+
+    public void testInit() {
     }
 
 }

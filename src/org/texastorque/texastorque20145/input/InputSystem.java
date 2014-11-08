@@ -39,11 +39,12 @@ public abstract class InputSystem implements Runnable {
     {
         return clapperState;
     }
-
+    
     //Front Intake
     protected volatile int frontIntakeState;
     protected volatile double manualFrontAngleSpeed;
     protected volatile boolean frontIntakeManual;
+    protected volatile boolean resetFrontAngle;
 
     public synchronized int getFrontIntakeState() {
         return frontIntakeState;
@@ -57,12 +58,18 @@ public abstract class InputSystem implements Runnable {
     {
         return frontIntakeManual;
     }
+    
+    public synchronized boolean resetFrontIntakeAngle()
+    {
+        return resetFrontAngle;
+    }
 
     //Rear Intake
     protected volatile int rearIntakeState;
     protected volatile double manualRearAngleSpeed;
     protected volatile boolean rearIntakeManual;
     protected volatile boolean backWallOpen;
+    protected volatile boolean resetRearAngle;
 
     public synchronized int getRearIntakeState() {
         return rearIntakeState;
@@ -80,5 +87,10 @@ public abstract class InputSystem implements Runnable {
     public synchronized boolean backWallIsOpen()
     {
         return backWallOpen;
+    }
+    
+    public synchronized boolean resetRearIntakeAngle()
+    {
+        return resetRearAngle;
     }
 }

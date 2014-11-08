@@ -35,6 +35,8 @@ public class Shooter extends Subsystem {
 
     public void update() {
         state = input.getShooterState();
+        
+        SmartDashboard.putNumber("shooterstate", state);
 
         switch (state) {
             case FENDER:
@@ -75,22 +77,29 @@ public class Shooter extends Subsystem {
         
         rpmController.setSetpoint(targetRPM);
         feedback.setShooterSpunUp(rpmController.isDone());
+        currentRPM = feedback.getShooterRPM();
+        double bangPower = rpmController.calculate(currentRPM);
+        SmartDashboard.putNumber("bangbangpower", bangPower);
+        SmartDashboard.putNumber("openlooppower", openLoopPower);
         
         if (input.shooterIsManual())
         {
             shooterAMotor.set(openLoopPower);
             shooterBMotor.set(openLoopPower);
+            SmartDashboard.putNumber("power", openLoopPower);
         } else {
-            currentRPM = feedback.getShooterRPM();
+            
             
             if (state == INBOUND || state == INTAKE || state == OUTTAKE)
             {
                 shooterAMotor.set(openLoopPower);
                 shooterBMotor.set(openLoopPower);
+                SmartDashboard.putNumber("power", openLoopPower);
             } else {
-                double power = rpmController.calculate(currentRPM);
-                shooterAMotor.set(power);
-                shooterBMotor.set(power);
+                
+                shooterAMotor.set(bangPower);
+                shooterBMotor.set(bangPower);
+                SmartDashboard.putNumber("power", bangPower);
             }
         }
     }

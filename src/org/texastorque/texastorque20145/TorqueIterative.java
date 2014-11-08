@@ -29,6 +29,8 @@ public abstract class TorqueIterative extends RobotBase {
 
     private boolean m_autonomousInitialized;
     private boolean m_teleopInitialized;
+    private boolean m_disabledInitialized;
+    private boolean m_testInitialized;
 
     /**
      * This class provides the default IterativeRobot functionality.
@@ -37,8 +39,6 @@ public abstract class TorqueIterative extends RobotBase {
      */
     private class Periodic implements Runnable {
 
-        private boolean m_disabledInitialized;
-        private boolean m_testInitialized;
         boolean didDisabledPeriodic = false;
         boolean didAutonomousPeriodic = false;
         boolean didTeleopPeriodic = false;
@@ -129,6 +129,8 @@ public abstract class TorqueIterative extends RobotBase {
                     autonomousContinuous();
                 } else if (isOperatorControl() && m_teleopInitialized) {
                     teleopContinuous();
+                } else if (isDisabled() && m_disabledInitialized) {
+                    disabledContinuous();
                 }
                 try {
                     Thread.sleep(4);
@@ -175,6 +177,15 @@ public abstract class TorqueIterative extends RobotBase {
         if (apcFirstRun) {
             System.out.println("Default TorqueIterativeRobot.autonomousContinuous() method!");
             apcFirstRun = false;
+        }
+    }
+    
+    private boolean dcFirstRun = true;
+
+    public void disabledContinuous() {
+        if (dcFirstRun) {
+            System.out.println("Default TorqueIterativeRobot.disabledContinuous() method!");
+            dcFirstRun = false;
         }
     }
 
