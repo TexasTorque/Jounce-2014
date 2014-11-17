@@ -51,7 +51,8 @@ public class Constants {
     public final static Constant shootDifference = new Constant("C_UpDifference", 0.09);
     
     //  ----- Intake  -----
-    public final static Constant downAngle = new Constant("I_DownAngle", -80.0);
+    public final static Constant frontDownAngle = new Constant("I_FrontDownAngle", -80.0);
+    public final static Constant rearDownAngle = new Constant("I_RearDownAngle", -110);
     public final static Constant upAngle = new Constant("I_UpAngle", 90);
     public final static Constant inAngle = new Constant("I_InAngle", -120);
     public final static Constant intakeFrontAngle = new Constant("I_IntakeFrontAngle", -20);

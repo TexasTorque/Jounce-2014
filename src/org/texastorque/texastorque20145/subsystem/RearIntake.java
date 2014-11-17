@@ -58,7 +58,7 @@ public class RearIntake extends Subsystem {
 
         switch (state) {
             case DOWN:
-                targetAngle = Constants.downAngle.getDouble();
+                targetAngle = Constants.rearDownAngle.getDouble();
                 rollerMotor.set(0.0);
                 break;
             case INTAKE:
@@ -89,7 +89,7 @@ public class RearIntake extends Subsystem {
                 anglePID.setSetpoint(targetAngle);
                 break;
             default:
-                targetAngle = Constants.downAngle.getDouble();
+                targetAngle = Constants.frontDownAngle.getDouble();
                 rollerMotor.set(0.0);
                 break;
         }

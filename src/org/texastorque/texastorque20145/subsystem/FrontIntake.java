@@ -8,7 +8,7 @@ import org.texastorque.texastorque20145.torquelib.Motor;
 import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
 
 public class FrontIntake extends Subsystem {
-    
+
     public final static int DOWN = 0;
     public final static int INTAKE = 1;
     public final static int OUTTAKE = 2;
@@ -16,31 +16,28 @@ public class FrontIntake extends Subsystem {
     public final static int PUSH_OTHER_SIDE = 4;
     public final static int CARRY = 5;
     public final static int HOLD = 6;
-    
+
     private double targetAngle;
     private double currentAngle;
-    
+
     private Motor angleMotor;
     private Motor rollerMotor;
-    
+
     private TorquePID anglePID;
-    
-    public FrontIntake()
-    {
+
+    public FrontIntake() {
         angleMotor = new Motor(new Victor(Constants.frontIntakeAnglePort.getInt()), false);
         rollerMotor = new Motor(new Victor(Constants.frontIntakeRollerPort.getInt()), false);
-        
+
         anglePID = new TorquePID();
     }
-    
-    public void update()
-    {
+
+    public void update() {
         state = input.getFrontIntakeState();
-        
-        switch (state)
-        {
+
+        switch (state) {
             case DOWN:
-                targetAngle = Constants.downAngle.getDouble();
+                targetAngle = Constants.frontDownAngle.getDouble();
                 rollerMotor.set(0.0);
                 break;
             case INTAKE:
@@ -67,11 +64,11 @@ public class FrontIntake extends Subsystem {
                 rollerMotor.set(0.0);
                 break;
             default:
-                targetAngle = Constants.downAngle.getDouble();
+                targetAngle = Constants.frontDownAngle.getDouble();
                 rollerMotor.set(0.0);
                 break;
         }
-        
+
         currentAngle = feedback.getFrontIntakeAngle();
 
         if (input.frontIntakeIsManual()) {
@@ -88,18 +85,16 @@ public class FrontIntake extends Subsystem {
             }
         }
     }
-    
-    public void updateGains()
-    {
-        anglePID.setPIDGains(Constants.frontIntakeKp.getDouble(), 
-                             Constants.frontIntakeKi.getDouble(),
-                             Constants.frontIntakeKd.getDouble());
+
+    public void updateGains() {
+        anglePID.setPIDGains(Constants.frontIntakeKp.getDouble(),
+                Constants.frontIntakeKi.getDouble(),
+                Constants.frontIntakeKd.getDouble());
         anglePID.setEpsilon(Constants.frontIntakeE.getDouble());
         anglePID.setDoneRange(Constants.intakeDoneRange.getDouble());
     }
-    
-    public void pushToDashboard()
-    {
+
+    public void pushToDashboard() {
         SmartDashboard.putNumber("FrontAngle", currentAngle);
         SmartDashboard.putNumber("FrontTargetAngle", targetAngle);
         SmartDashboard.putNumber("FrontIntakeState", state);
