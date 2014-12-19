@@ -18,6 +18,9 @@ public class DriverInput extends InputSystem {
     public DriverInput() {
         driver = new GenericController(1, GenericController.XBOX, 0.1);
         operator = new GenericController(2, GenericController.XBOX, 0.0);
+        
+        oldWheel = 0.0;
+        quickStopAccumulator = 0.0;
     }
 
     public void run() {
@@ -25,19 +28,121 @@ public class DriverInput extends InputSystem {
         double throttle = -driver.getLeftYAxis();
         double wheel = -driver.getRightXAxis();
         isHighGear = driver.getLeftBumper();
+        boolean isQuickTurn = driver.getRightBumper();
+
+        double wheelNonLinearity;
+
+        double negInertia = wheel - oldWheel;
+        oldWheel = wheel;
+
+        if (isHighGear) {
+            wheelNonLinearity = 0.6;
+            // Apply a sin function that's scaled to make it feel better.
+            wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                    / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+            wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                    / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+        } else {
+            wheelNonLinearity = 0.5;
+            // Apply a sin function that's scaled to make it feel better.
+            wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                    / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+            wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                    / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+            wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
+                    / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+        }
+
+        double sensitivity;
+
+        double angularPower;
+        double linearPower;
+
+        // Negative inertia!
+        double negInertiaAccumulator = 0.0;
+        double negInertiaScalar;
+        if (isHighGear) {
+            negInertiaScalar = 5.0;
+            sensitivity = Constants.highGearSensitivity.getDouble();
+        } else {
+            if (wheel * negInertia > 0) {
+                negInertiaScalar = 2.5;
+            } else {
+                if (Math.abs(wheel) > 0.65) {
+                    negInertiaScalar = 5.0;
+                } else {
+                    negInertiaScalar = 3.0;
+                }
+            }
+            sensitivity = Constants.lowGearSensitivity.getDouble();
+        }
+        double negInertiaPower = negInertia * negInertiaScalar;
+        negInertiaAccumulator += negInertiaPower;
+
+        wheel = wheel + negInertiaAccumulator;
+        if (negInertiaAccumulator > 1) {
+            negInertiaAccumulator -= 1;
+        } else if (negInertiaAccumulator < -1) {
+            negInertiaAccumulator += 1;
+        } else {
+            negInertiaAccumulator = 0;
+        }
+        linearPower = throttle;
+
+        double overPower;
         
-        rightSpeed = leftSpeed = throttle;
-        leftSpeed += wheel;
-        rightSpeed -= wheel;
+        // Quickturn!
+        if (isQuickTurn) {
+            if (Math.abs(linearPower) < 0.2) {
+                double alpha = 0.1;
+                double w = 
+                quickStopAccumulator = (1 - alpha) * quickStopAccumulator + alpha
+                        * ((Math.abs(wheel) < 1) ? wheel : (wheel < 0) ? -1 : 1) * 5;
+            }
+            overPower = 1.0;
+            if (isHighGear) {
+                sensitivity = 1.0;
+            } else {
+                sensitivity = 1.0;
+            }
+            angularPower = wheel;
+        } else {
+            overPower = 0.0;
+            angularPower = Math.abs(throttle) * wheel * sensitivity - quickStopAccumulator;
+            if (quickStopAccumulator > 1) {
+                quickStopAccumulator -= 1;
+            } else if (quickStopAccumulator < -1) {
+                quickStopAccumulator += 1;
+            } else {
+                quickStopAccumulator = 0.0;
+            }
+        }
 
+        double rightPwm = linearPower, leftPwm = linearPower;
+        leftPwm += angularPower;
+        rightPwm -= angularPower;
 
+        if (leftPwm > 1.0) {
+            rightPwm -= overPower * (leftPwm - 1.0);
+            leftPwm = 1.0;
+        } else if (rightPwm > 1.0) {
+            leftPwm -= overPower * (rightPwm - 1.0);
+            rightPwm = 1.0;
+        } else if (leftPwm < -1.0) {
+            rightPwm += overPower * (-1.0 - leftPwm);
+            leftPwm = -1.0;
+        } else if (rightPwm < -1.0) {
+            leftPwm += overPower * (-1.0 - rightPwm);
+            rightPwm = -1.0;
+        }
+        
+        leftSpeed = leftPwm;
+        rightSpeed = rightPwm;
+
+        
+        //Manipulator
         backWallOpen = true;
 
-        //Shooter
-//        if (operator.getRightTrigger() && operator.getXButton()) {
-//            shooterState = Shooter.LOW_GOAL;
-//            backWallOpen = true;
-//        } else 
         if (operator.getYButton()) {
             shooterState = Shooter.FAR;
             backWallOpen = true;
@@ -69,12 +174,11 @@ public class DriverInput extends InputSystem {
             clapperState = Clapper.DOWN;
         }
 
-        if (driver.getYButton())
-        {
+        if (driver.getYButton()) {
             frontIntakeManual = true;
             rearIntakeManual = true;
         }
-        
+
         //Intake
         if (operator.getLeftBumper()) {
             frontIntakeState = FrontIntake.DOWN;
@@ -94,7 +198,7 @@ public class DriverInput extends InputSystem {
             frontIntakeState = FrontIntake.DOWN;
             rearIntakeState = RearIntake.DOWN;
         }
-        
+
         resetFrontAngle = resetRearAngle = driver.getXButton();
 
         manualRearAngleSpeed = operator.getRightYAxis();
