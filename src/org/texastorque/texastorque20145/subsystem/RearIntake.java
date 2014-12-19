@@ -99,7 +99,7 @@ public class RearIntake extends Subsystem {
         if (input.rearIntakeIsManual()) {
             angleMotor.set(input.getRearAngleManualSpeed());
         } else {
-            double feedForward = Math.cos(currentAngle) * Constants.rearIntakeKff.getDouble();
+            double feedForward = Math.cos(targetAngle) * Constants.rearIntakeKff.getDouble();
             anglePID.setSetpoint(targetAngle);
             double pid = anglePID.calculate(currentAngle);
 

@@ -1,6 +1,5 @@
 package org.texastorque.texastorque20145.subsystem;
 
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
@@ -74,7 +73,7 @@ public class FrontIntake extends Subsystem {
         if (input.frontIntakeIsManual()) {
             angleMotor.set(input.getFrontAngleManualSpeed());
         } else {
-            double feedForward = Math.cos(currentAngle) * Constants.frontIntakeKff.getDouble();
+            double feedForward = Math.cos(targetAngle) * Constants.frontIntakeKff.getDouble();
             anglePID.setSetpoint(targetAngle);
             double pid = anglePID.calculate(currentAngle);
 
