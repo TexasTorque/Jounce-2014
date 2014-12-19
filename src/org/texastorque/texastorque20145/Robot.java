@@ -36,6 +36,8 @@ public class Robot extends TorqueIterative {
     Thread AutoThread;
 
     public void robotInit() {
+        getWatchdog().feed();
+        
         params = new Parameters();
         params.load();
 
@@ -55,6 +57,8 @@ public class Robot extends TorqueIterative {
     }
 
     public void teleopInit() {
+        getWatchdog().feed();
+        
         params.load();
         compressor.start();
 
@@ -79,6 +83,8 @@ public class Robot extends TorqueIterative {
     }
 
     public void teleopPeriodic() {
+        getWatchdog().feed();
+        
         input.run();
         feedback.run();
         
@@ -90,6 +96,8 @@ public class Robot extends TorqueIterative {
     }
 
     public void teleopContinuous() {
+        getWatchdog().feed();
+        
         drivebase.pushToDashboard();
         shooter.pushToDashboard();
         clapper.pushToDashboard();
@@ -98,6 +106,8 @@ public class Robot extends TorqueIterative {
     }
 
     public void autonomousInit() {
+        getWatchdog().feed();
+        
         params.load();
 
         feedback = sensorFeedback;
@@ -129,6 +139,8 @@ public class Robot extends TorqueIterative {
     }
 
     public void autonomousPeriodic() {
+        getWatchdog().feed();
+        
         input.run();
         feedback.run();
 
@@ -140,6 +152,8 @@ public class Robot extends TorqueIterative {
     }
 
     public void disabledInit() {
+        getWatchdog().feed();
+        
         drivebase.setFeedbackSystem(feedback);
         drivebase.setInputSystem(driverInput);
         
@@ -161,6 +175,8 @@ public class Robot extends TorqueIterative {
     }
 
     public void disabledPeriodic() {
+        getWatchdog().feed();
+        
         input.run();
         feedback.run();
         
@@ -174,6 +190,8 @@ public class Robot extends TorqueIterative {
     }
     
     public void disabledContinuous() {
+        getWatchdog().feed();
+        
         drivebase.pushToDashboard();
         shooter.pushToDashboard();
         clapper.pushToDashboard();
@@ -182,6 +200,7 @@ public class Robot extends TorqueIterative {
     }
 
     public void testInit() {
+        getWatchdog().feed();
     }
 
 }

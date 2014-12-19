@@ -165,6 +165,7 @@ public abstract class TorqueIterative extends RobotBase {
     private boolean tpcFirstRun = true;
 
     public void teleopContinuous() {
+        getWatchdog().feed();
         if (tpcFirstRun) {
             System.out.println("Default TorqueIterativeRobot.teleopContinuous() method!");
             tpcFirstRun = false;
@@ -174,6 +175,7 @@ public abstract class TorqueIterative extends RobotBase {
     private boolean apcFirstRun = true;
 
     public void autonomousContinuous() {
+        getWatchdog().feed();
         if (apcFirstRun) {
             System.out.println("Default TorqueIterativeRobot.autonomousContinuous() method!");
             apcFirstRun = false;
@@ -183,6 +185,7 @@ public abstract class TorqueIterative extends RobotBase {
     private boolean dcFirstRun = true;
 
     public void disabledContinuous() {
+        getWatchdog().feed();
         if (dcFirstRun) {
             System.out.println("Default TorqueIterativeRobot.disabledContinuous() method!");
             dcFirstRun = false;
@@ -193,6 +196,7 @@ public abstract class TorqueIterative extends RobotBase {
     private boolean dpFirstRun = true;
 
     public void disabledPeriodic() {
+        getWatchdog().feed();
         if (dpFirstRun) {
             System.out.println("Default TorqueIterativeRobot.disabledPeriodic() method!");
             dpFirstRun = false;
@@ -205,6 +209,7 @@ public abstract class TorqueIterative extends RobotBase {
     private boolean apFirstRun = true;
 
     public void autonomousPeriodic() {
+        getWatchdog().feed();
         if (apFirstRun) {
             System.out.println("Default TorqueIterativeRobot.autonomousPeriodic() method!");
             apFirstRun = false;
@@ -217,6 +222,7 @@ public abstract class TorqueIterative extends RobotBase {
     private boolean tpFirstRun = true;
 
     public void teleopPeriodic() {
+        getWatchdog().feed();
         if (tpFirstRun) {
             System.out.println("Default TorqueIterativeRobot.teleopPeriodic() method!");
             tpFirstRun = false;
@@ -229,6 +235,7 @@ public abstract class TorqueIterative extends RobotBase {
     private boolean testFirstRun = true;
 
     public void testPeriodic() {
+        getWatchdog().feed();
         if (testFirstRun) {
             System.out.println("Default TorqueIterativeRobot.testPeriodic() method!");
             testFirstRun = false;
