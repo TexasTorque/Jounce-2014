@@ -67,6 +67,13 @@ public abstract class FeedbackSystem implements Runnable {
     protected volatile double frontIntakeAngle;
     protected volatile boolean frontIntakeHallEffect;
     
+    protected volatile boolean wantCalibrate;
+    
+    public synchronized void calibrate(boolean want)
+    {
+        wantCalibrate = want;
+    }
+    
     public synchronized double getFrontIntakeAngle()
     {
         return frontIntakeAngle;

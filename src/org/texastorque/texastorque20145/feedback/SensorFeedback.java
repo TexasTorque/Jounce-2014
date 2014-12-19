@@ -15,8 +15,14 @@ public class SensorFeedback extends FeedbackSystem {
      //Intake
     private TorqueQuadrature frontIntakeEncoder;
     private TorqueQuadrature rearIntakeEncoder;
+    
     private DigitalInput frontIntakeHallEffectSensor;
     private DigitalInput rearIntakeHallEffectSensor;
+    private boolean previousFrontHallEffect;
+    private boolean previousRearHallEffect;
+    private boolean frontCalibrated;
+    private boolean rearCalibrated;
+    
     private DigitalInput frontIntakeBumperSwitch;
     private DigitalInput rearIntakeBumperSwitch;
     
@@ -84,6 +90,20 @@ public class SensorFeedback extends FeedbackSystem {
         
         frontIntakeHallEffect = frontIntakeHallEffectSensor.get();
         rearIntakeHallEffect = rearIntakeHallEffectSensor.get();
+        
+        if (!previousFrontHallEffect && frontIntakeHallEffect && wantCalibrate && !frontCalibrated)
+        {
+            frontIntakeEncoder.reset();
+            frontCalibrated = true;
+        }
+        if (!previousRearHallEffect && rearIntakeHallEffect && wantCalibrate && !rearCalibrated)
+        {
+            rearIntakeEncoder.reset();
+            rearCalibrated = true;
+        }
+        
+        previousFrontHallEffect = frontIntakeHallEffect;
+        previousRearHallEffect = rearIntakeHallEffect;
         
         frontIntakeAngle = frontIntakeEncoder.getPosition() * Constants.intakeDegreesPerClick.getDouble()
                          + Constants.intakeZeroAngle.getDouble();
