@@ -84,11 +84,7 @@ public class RearIntake extends Subsystem {
             anglePID.setSetpoint(targetAngle);
             double pid = anglePID.calculate(currentAngle);
 
-            if (state == DOWN && anglePID.isDone()) {
-                angleMotor.set(0.0);
-            } else {
-                angleMotor.set(feedForward + pid);
-            }
+            angleMotor.set(feedForward + pid);
         }
     }
 
