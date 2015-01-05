@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
+import org.texastorque.texastorque20145.constants.Ports;
 import org.texastorque.texastorque20145.torquelib.Motor;
 import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
 
@@ -30,9 +31,9 @@ public class RearIntake extends Subsystem {
     private TorquePID anglePID;
 
     public RearIntake() {
-        angleMotor = new Motor(new Victor(Constants.rearIntakeAnglePort.getInt()), false);
-        rollerMotor = new Motor(new Victor(Constants.rearIntakeRollerPort.getInt()), false);
-        backWallSolenoid = new Solenoid(Constants.backWallSolenoidPort.getInt());
+        angleMotor = new Motor(new Victor(Ports.REAR_ANGLE_PORT), false);
+        rollerMotor = new Motor(new Victor(Ports.REAR_ROLLER_PORT), false);
+        backWallSolenoid = new Solenoid(Ports.BACK_WALL_PORT);
 
         anglePID = new TorquePID();
     }

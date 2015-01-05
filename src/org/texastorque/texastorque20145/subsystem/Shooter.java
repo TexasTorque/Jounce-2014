@@ -3,6 +3,7 @@ package org.texastorque.texastorque20145.subsystem;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
+import org.texastorque.texastorque20145.constants.Ports;
 import org.texastorque.texastorque20145.torquelib.Motor;
 import org.texastorque.texastorque20145.torquelib.controlloop.BangBang;
 
@@ -27,8 +28,8 @@ public class Shooter extends Subsystem {
     public final static int OUTTAKE = 7;
     
     public Shooter() {
-        shooterAMotor = new Motor(new Victor(Constants.shooterAPort.getInt()), false);
-        shooterBMotor = new Motor(new Victor(Constants.shooterBPort.getInt()), true);
+        shooterAMotor = new Motor(new Victor(Ports.SHOOTER_A_PORT), false);
+        shooterBMotor = new Motor(new Victor(Ports.SHOOTER_B_PORT), true);
         
         rpmController = new BangBang();
     }

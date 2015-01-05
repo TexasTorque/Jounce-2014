@@ -3,7 +3,7 @@ package org.texastorque.texastorque20145;
 import edu.wpi.first.wpilibj.Compressor;
 import org.texastorque.texastorque20145.autonomous.AutoMode;
 import org.texastorque.texastorque20145.autonomous.AutoPicker;
-import org.texastorque.texastorque20145.constants.Constants;
+import org.texastorque.texastorque20145.constants.Ports;
 import org.texastorque.texastorque20145.feedback.FeedbackSystem;
 import org.texastorque.texastorque20145.feedback.SensorFeedback;
 import org.texastorque.texastorque20145.input.DriverInput;
@@ -47,7 +47,7 @@ public class Robot extends TorqueIterative {
         rearIntake = new RearIntake();
         frontIntake = new FrontIntake();
 
-        compressor = new Compressor(1, Constants.compressorSwitch.getInt(), 1, Constants.compressorRelay.getInt());
+        compressor = new Compressor(1, Ports.PRESSURE_SWITCH, 1, Ports.COMPRESSOR_RELAY);
 
         driverInput = new DriverInput();
         input = driverInput;

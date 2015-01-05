@@ -3,6 +3,7 @@ package org.texastorque.texastorque20145.subsystem;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
+import org.texastorque.texastorque20145.constants.Ports;
 import org.texastorque.texastorque20145.torquelib.Motor;
 import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
 
@@ -28,8 +29,8 @@ public class FrontIntake extends Subsystem {
     private TorquePID anglePID;
 
     public FrontIntake() {
-        angleMotor = new Motor(new Victor(Constants.frontIntakeAnglePort.getInt()), false);
-        rollerMotor = new Motor(new Victor(Constants.frontIntakeRollerPort.getInt()), false);
+        angleMotor = new Motor(new Victor(Ports.FRONT_ANGLE_PORT), false);
+        rollerMotor = new Motor(new Victor(Ports.FRONT_ROLLER_PORT), false);
 
         anglePID = new TorquePID();
     }

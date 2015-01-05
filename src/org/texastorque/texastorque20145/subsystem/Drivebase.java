@@ -3,7 +3,7 @@ package org.texastorque.texastorque20145.subsystem;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.texastorque.texastorque20145.constants.Constants;
+import org.texastorque.texastorque20145.constants.Ports;
 import org.texastorque.texastorque20145.torquelib.Motor;
 
 public class Drivebase extends Subsystem {
@@ -14,9 +14,9 @@ public class Drivebase extends Subsystem {
     
     public Drivebase()
     {
-        left = new Motor(new Victor(Constants.leftDrivePort.getInt()), false);
-        right = new Motor(new Victor(Constants.rightDrivePort.getInt()), true);
-        shifter = new Solenoid(Constants.shifterPort.getInt());
+        left = new Motor(new Victor(Ports.LEFT_DRIVE_PORT), false);
+        right = new Motor(new Victor(Ports.RIGHT_DRIVE_PORT), true);
+        shifter = new Solenoid(Ports.SHIFTER_PORT);
     }
 
     public void update() {

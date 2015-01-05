@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
+import org.texastorque.texastorque20145.constants.Ports;
 
 public class Clapper extends Subsystem {
 
@@ -18,8 +19,8 @@ public class Clapper extends Subsystem {
     private double frontUpTime;
 
     public Clapper() {
-        frontClapper = new Solenoid(Constants.clapperFrontPort.getInt());
-        rearClapper = new Solenoid(Constants.clapperRearPort.getInt());
+        frontClapper = new Solenoid(Ports.CLAPPER_FRONT_PORT);
+        rearClapper = new Solenoid(Ports.CLAPPER_REAR_PORT);
     }
 
     public void update() {
