@@ -8,6 +8,7 @@ import org.texastorque.texastorque20145.torquelib.controlloop.TorquePID;
 
 public class FrontIntake extends Subsystem {
 
+    //States
     public final static int DOWN = 0;
     public final static int INTAKE = 1;
     public final static int OUTTAKE = 2;
@@ -18,6 +19,8 @@ public class FrontIntake extends Subsystem {
 
     private double targetAngle;
     private double currentAngle;
+    private double angleMotorSpeed;
+    private double rollerSpeed;
 
     private Motor angleMotor;
     private Motor rollerMotor;
@@ -37,47 +40,53 @@ public class FrontIntake extends Subsystem {
         switch (state) {
             case DOWN:
                 targetAngle = Constants.frontDownAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
             case INTAKE:
                 targetAngle = Constants.intakeFrontAngle.getDouble();
-                rollerMotor.set(1.0);
+                rollerSpeed = 1.0;
                 break;
             case OUTTAKE:
                 targetAngle = Constants.outtakeFrontAngle.getDouble();
-                rollerMotor.set(-1.0);
+                rollerSpeed = -1.0;
                 break;
             case UP:
                 targetAngle = Constants.upAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
             case PUSH_OTHER_SIDE:
                 targetAngle = Constants.inAngle.getDouble();
-                rollerMotor.set(1.0);
+                rollerSpeed = 1.0;
                 break;
             case CARRY:
                 targetAngle = Constants.frontCarryAngle.getDouble();
+                rollerSpeed = 0.0;
                 break;
             case HOLD:
                 targetAngle = Constants.frontHoldAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
             default:
                 targetAngle = Constants.frontDownAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
         }
 
         currentAngle = feedback.getFrontIntakeAngle();
 
         if (input.frontIntakeIsManual()) {
-            angleMotor.set(input.getFrontAngleManualSpeed());
+            angleMotorSpeed = input.getFrontAngleManualSpeed();
         } else {
-            double feedForward = Math.cos(targetAngle) * Constants.frontIntakeKff.getDouble();
             anglePID.setSetpoint(targetAngle);
             double pid = anglePID.calculate(currentAngle);
+            double feedForward = Math.cos(targetAngle) * Constants.frontIntakeKff.getDouble();
 
-            angleMotor.set(feedForward + pid);
+            angleMotorSpeed = feedForward + pid;
+        }
+
+        if (outputEnabled) {
+            angleMotor.set(angleMotorSpeed);
+            rollerMotor.set(rollerSpeed);
         }
     }
 

@@ -19,6 +19,8 @@ public class RearIntake extends Subsystem {
 
     private double targetAngle;
     private double currentAngle;
+    private double angleMotorSpeed;
+    private double rollerSpeed;
     private boolean backWallPosition;
 
     private Motor angleMotor;
@@ -44,47 +46,52 @@ public class RearIntake extends Subsystem {
         switch (state) {
             case DOWN:
                 targetAngle = Constants.rearDownAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
             case INTAKE:
                 targetAngle = Constants.intakeRearAngle.getDouble();
-                rollerMotor.set(1.0);
+                rollerSpeed = 0.0;
                 break;
             case OUTTAKE:
                 targetAngle = Constants.outtakeRearAngle.getDouble();
-                rollerMotor.set(-1.0);
-                break;
+                rollerSpeed = 0.0;
             case UP:
                 targetAngle = Constants.upAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
             case PUSH_OTHER_SIDE:
                 targetAngle = Constants.inAngle.getDouble();
-                rollerMotor.set(1.0);
+                rollerSpeed = 0.0;
                 break;
             case CARRY:
                 targetAngle = Constants.rearCarryAngle.getDouble();
+                rollerSpeed = 0.0;
                 break;
             case HOLD:
                 targetAngle = Constants.rearHoldAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
             default:
                 targetAngle = Constants.frontDownAngle.getDouble();
-                rollerMotor.set(0.0);
+                rollerSpeed = 0.0;
                 break;
         }
 
         currentAngle = feedback.getRearIntakeAngle();
 
         if (input.rearIntakeIsManual()) {
-            angleMotor.set(input.getRearAngleManualSpeed());
+            angleMotorSpeed = input.getRearAngleManualSpeed();
         } else {
-            double feedForward = Math.cos(targetAngle) * Constants.rearIntakeKff.getDouble();
             anglePID.setSetpoint(targetAngle);
+            double feedForward = Math.cos(targetAngle) * Constants.rearIntakeKff.getDouble();
             double pid = anglePID.calculate(currentAngle);
 
-            angleMotor.set(feedForward + pid);
+            angleMotorSpeed = feedForward + pid;
+        }
+
+        if (outputEnabled) {
+            angleMotor.set(angleMotorSpeed);
+            rollerMotor.set(rollerSpeed);
         }
     }
 
