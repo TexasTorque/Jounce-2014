@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.texastorque.texastorque20145.constants.Constants;
 import org.texastorque.texastorque20145.constants.Ports;
 import org.texastorque.texastorque20145.torquelib.Motor;
+import org.texastorque.texastorque20145.torquelib.MovingAverageFilter;
 import org.texastorque.texastorque20145.torquelib.controlloop.BangBang;
 
 public class Shooter extends Subsystem {
@@ -17,6 +18,8 @@ public class Shooter extends Subsystem {
     private double shooterMotorSpeed;
 
     private BangBang rpmController;
+    private MovingAverageFilter rpmFilter;
+    private double rpmDoneRange;
 
     public final static int OFF = 0;
     public final static int OPEN_LOOP = 1;
@@ -27,12 +30,15 @@ public class Shooter extends Subsystem {
         shooterBMotor = new Motor(new Victor(Ports.SHOOTER_B_PORT), true);
 
         rpmController = new BangBang();
+        rpmFilter = new MovingAverageFilter(Constants.rpmFilterSize.getInt());
     }
 
     public void update() {
         state = input.getShooterState();
-        
+
         currentRPM = feedback.getShooterRPM();
+        rpmFilter.setInput(currentRPM);
+        rpmFilter.run();
 
         switch (state) {
             case OFF:
@@ -47,7 +53,7 @@ public class Shooter extends Subsystem {
                 targetRPM = input.getShooterRPM();
                 rpmController.setSetpoint(targetRPM);
                 shooterMotorSpeed = rpmController.calculate(currentRPM);
-                feedback.setShooterSpunUp(rpmController.isDone());
+                feedback.setShooterSpunUp(rpmFilter.getAverage() >= targetRPM - rpmDoneRange);
                 break;
             default:
                 shooterMotorSpeed = 0.0;
@@ -55,15 +61,14 @@ public class Shooter extends Subsystem {
                 break;
         }
 
-        if (outputEnabled)
-        {
+        if (outputEnabled) {
             shooterAMotor.set(shooterMotorSpeed);
             shooterBMotor.set(shooterMotorSpeed);
         }
     }
 
     public void updateGains() {
-        rpmController.setDoneRange(Constants.rpmDoneRange.getInt());
+        rpmDoneRange = Constants.rpmDoneRange.getDouble();
     }
 
     public void pushToDashboard() {
