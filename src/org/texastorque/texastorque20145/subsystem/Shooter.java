@@ -14,103 +14,59 @@ public class Shooter extends Subsystem {
 
     private double targetRPM;
     private double currentRPM;
-    private double openLoopPower;
-    
+    private double shooterMotorSpeed;
+
     private BangBang rpmController;
 
     public final static int OFF = 0;
-    public final static int FENDER = 1;
-    public final static int FAR = 2;
-    public final static int RUN_FAR = 3;
-    public final static int INBOUND = 4;
-    public final static int LOW_GOAL = 5; 
-    public final static int INTAKE = 6;
-    public final static int OUTTAKE = 7;
-    
+    public final static int OPEN_LOOP = 1;
+    public final static int CLOSED_LOOP = 2;
+
     public Shooter() {
         shooterAMotor = new Motor(new Victor(Ports.SHOOTER_A_PORT), false);
         shooterBMotor = new Motor(new Victor(Ports.SHOOTER_B_PORT), true);
-        
+
         rpmController = new BangBang();
     }
 
     public void update() {
         state = input.getShooterState();
         
-        SmartDashboard.putNumber("shooterstate", state);
+        currentRPM = feedback.getShooterRPM();
 
         switch (state) {
-            case FENDER:
-                openLoopPower = Constants.openLoopFenderPower.getDouble();
-                targetRPM = Constants.fenderRPM.getDouble();
-                break;
-            case FAR:
-                openLoopPower = 0.0;
-                targetRPM = Constants.farRPM.getDouble();
-                break;
-            case RUN_FAR:
-                openLoopPower = 0.0;
-                targetRPM = Constants.runFarRPM.getDouble();
-                break;
-            case INBOUND:
-                openLoopPower = Constants.inboundPower.getDouble();
-                targetRPM = Constants.inboundRPM.getDouble();
-                break;
             case OFF:
-                openLoopPower = 0.0;
-                targetRPM = Constants.offRPM.getDouble();
+                shooterMotorSpeed = 0.0;
+                feedback.setShooterSpunUp(false);
                 break;
-            case LOW_GOAL:
-                openLoopPower = Constants.openLoopLowGoalPower.getDouble();
-                targetRPM = Constants.lowGoalRPM.getDouble();
+            case OPEN_LOOP:
+                shooterMotorSpeed = input.getShooterOpenLoopSpeed();
+                feedback.setShooterSpunUp(true);
                 break;
-            case INTAKE:
-                openLoopPower = Constants.shooterIntakePower.getDouble();
-                break;
-            case OUTTAKE:
-                openLoopPower = Constants.shooterOuttakePower.getDouble();
+            case CLOSED_LOOP:
+                targetRPM = input.getShooterRPM();
+                rpmController.setSetpoint(targetRPM);
+                shooterMotorSpeed = rpmController.calculate(currentRPM);
+                feedback.setShooterSpunUp(rpmController.isDone());
                 break;
             default:
-                targetRPM = Constants.offRPM.getDouble();
-                openLoopPower = 0.0;
+                shooterMotorSpeed = 0.0;
+                feedback.setShooterSpunUp(false);
                 break;
         }
-        
-        rpmController.setSetpoint(targetRPM);
-        feedback.setShooterSpunUp(rpmController.isDone());
-        currentRPM = feedback.getShooterRPM();
-        double bangPower = rpmController.calculate(currentRPM);
-        SmartDashboard.putNumber("bangbangpower", bangPower);
-        SmartDashboard.putNumber("openlooppower", openLoopPower);
-        
-        if (input.shooterIsManual())
+
+        if (outputEnabled)
         {
-            shooterAMotor.set(openLoopPower);
-            shooterBMotor.set(openLoopPower);
-            SmartDashboard.putNumber("power", openLoopPower);
-        } else {
-            
-            
-            if (state == INBOUND || state == INTAKE || state == OUTTAKE)
-            {
-                shooterAMotor.set(openLoopPower);
-                shooterBMotor.set(openLoopPower);
-                SmartDashboard.putNumber("power", openLoopPower);
-            } else {
-                
-                shooterAMotor.set(bangPower);
-                shooterBMotor.set(bangPower);
-                SmartDashboard.putNumber("power", bangPower);
-            }
+            shooterAMotor.set(shooterMotorSpeed);
+            shooterBMotor.set(shooterMotorSpeed);
         }
     }
 
     public void updateGains() {
         rpmController.setDoneRange(Constants.rpmDoneRange.getInt());
     }
-    
-    public void pushToDashboard()
-    {
+
+    public void pushToDashboard() {
         SmartDashboard.putNumber("RPM", currentRPM);
         SmartDashboard.putNumber("TargetRPM", targetRPM);
     }

@@ -21,7 +21,9 @@ public abstract class InputSystem implements Runnable {
 
     //Shooter
     protected volatile int shooterState;
+    protected volatile int shooterRPM;
     protected volatile boolean shooterManual;
+    protected volatile double shooterOpenLoopSpeed;
 
     public synchronized int getShooterState() {
         return shooterState;
@@ -30,6 +32,16 @@ public abstract class InputSystem implements Runnable {
     public synchronized boolean shooterIsManual()
     {
         return shooterManual;
+    }
+    
+    public synchronized int getShooterRPM()
+    {
+        return shooterRPM;
+    }
+    
+    public synchronized double getShooterOpenLoopSpeed()
+    {
+        return shooterOpenLoopSpeed;
     }
     
     //Clapper

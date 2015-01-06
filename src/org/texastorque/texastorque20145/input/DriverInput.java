@@ -144,21 +144,17 @@ public class DriverInput extends InputSystem {
         backWallOpen = true;
 
         if (operator.getYButton()) {
-            shooterState = Shooter.FAR;
-            backWallOpen = true;
+            shooterState = Shooter.CLOSED_LOOP;
+            shooterRPM = Constants.farRPM.getInt();
         } else if (operator.getBButton()) {
-            shooterState = Shooter.RUN_FAR;
-            backWallOpen = true;
+            shooterState = Shooter.CLOSED_LOOP;
+            shooterRPM = Constants.runFarRPM.getInt();
         } else if (operator.getAButton()) {
-            shooterState = Shooter.INBOUND;
-            backWallOpen = true;
+            shooterState = Shooter.OPEN_LOOP;
+            shooterOpenLoopSpeed = Constants.inboundPower.getDouble();
         } else if (operator.getXButton()) {
-            shooterState = Shooter.FENDER;
-            backWallOpen = true;
-        } else if (operator.getRightBumper()) {
-            shooterState = Shooter.INTAKE;
-        } else if (operator.getRightTrigger()) {
-            shooterState = Shooter.OUTTAKE;
+            shooterState = Shooter.CLOSED_LOOP;
+            shooterRPM = Constants.fenderRPM.getInt();
         } else {
             shooterState = Shooter.OFF;
         }
