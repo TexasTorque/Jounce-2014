@@ -53,7 +53,7 @@ public class Shooter extends Subsystem {
                 targetRPM = input.getShooterRPM();
                 rpmController.setSetpoint(targetRPM);
                 shooterMotorSpeed = rpmController.calculate(currentRPM);
-                feedback.setShooterSpunUp(rpmFilter.getAverage() >= targetRPM - rpmDoneRange);
+                feedback.setShooterSpunUp(Math.abs(rpmFilter.getAverage() - targetRPM) <= rpmDoneRange);
                 break;
             default:
                 shooterMotorSpeed = 0.0;
