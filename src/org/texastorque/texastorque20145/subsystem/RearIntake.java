@@ -21,7 +21,7 @@ public class RearIntake extends Subsystem {
     private double targetAngle;
     private double currentAngle;
     private double angleMotorSpeed;
-    private double rollerSpeed;
+    private double rollerMotorSpeed;
     private boolean backWallPosition;
 
     private Motor angleMotor;
@@ -47,34 +47,34 @@ public class RearIntake extends Subsystem {
         switch (state) {
             case DOWN:
                 targetAngle = Constants.rearDownAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case INTAKE:
                 targetAngle = Constants.intakeRearAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case OUTTAKE:
                 targetAngle = Constants.outtakeRearAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
             case UP:
                 targetAngle = Constants.upAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case PUSH_OTHER_SIDE:
                 targetAngle = Constants.inAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case CARRY:
                 targetAngle = Constants.rearCarryAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case HOLD:
                 targetAngle = Constants.rearHoldAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             default:
                 targetAngle = Constants.frontDownAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
         }
 
@@ -92,7 +92,7 @@ public class RearIntake extends Subsystem {
 
         if (outputEnabled) {
             angleMotor.set(angleMotorSpeed);
-            rollerMotor.set(rollerSpeed);
+            rollerMotor.set(rollerMotorSpeed);
         }
     }
 
@@ -108,6 +108,8 @@ public class RearIntake extends Subsystem {
         SmartDashboard.putNumber("RearAngle", currentAngle);
         SmartDashboard.putNumber("RearTargetAngle", targetAngle);
         SmartDashboard.putNumber("RearIntakeState", state);
-        SmartDashboard.putBoolean("BackWallOpen", input.backWallIsOpen());
+        SmartDashboard.putNumber("RearIntakeAngleSpeed", angleMotorSpeed);
+        SmartDashboard.putNumber("RearIntakeRollerSpeed", rollerMotorSpeed);
+        SmartDashboard.putBoolean("BackWallOpen", backWallPosition);
     }
 }

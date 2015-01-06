@@ -21,7 +21,7 @@ public class FrontIntake extends Subsystem {
     private double targetAngle;
     private double currentAngle;
     private double angleMotorSpeed;
-    private double rollerSpeed;
+    private double rollerMotorSpeed;
 
     private Motor angleMotor;
     private Motor rollerMotor;
@@ -41,35 +41,35 @@ public class FrontIntake extends Subsystem {
         switch (state) {
             case DOWN:
                 targetAngle = Constants.frontDownAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case INTAKE:
                 targetAngle = Constants.intakeFrontAngle.getDouble();
-                rollerSpeed = 1.0;
+                rollerMotorSpeed = 1.0;
                 break;
             case OUTTAKE:
                 targetAngle = Constants.outtakeFrontAngle.getDouble();
-                rollerSpeed = -1.0;
+                rollerMotorSpeed = -1.0;
                 break;
             case UP:
                 targetAngle = Constants.upAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case PUSH_OTHER_SIDE:
                 targetAngle = Constants.inAngle.getDouble();
-                rollerSpeed = 1.0;
+                rollerMotorSpeed = 1.0;
                 break;
             case CARRY:
                 targetAngle = Constants.frontCarryAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             case HOLD:
                 targetAngle = Constants.frontHoldAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
             default:
                 targetAngle = Constants.frontDownAngle.getDouble();
-                rollerSpeed = 0.0;
+                rollerMotorSpeed = 0.0;
                 break;
         }
 
@@ -87,7 +87,7 @@ public class FrontIntake extends Subsystem {
 
         if (outputEnabled) {
             angleMotor.set(angleMotorSpeed);
-            rollerMotor.set(rollerSpeed);
+            rollerMotor.set(rollerMotorSpeed);
         }
     }
 
@@ -103,5 +103,7 @@ public class FrontIntake extends Subsystem {
         SmartDashboard.putNumber("FrontAngle", currentAngle);
         SmartDashboard.putNumber("FrontTargetAngle", targetAngle);
         SmartDashboard.putNumber("FrontIntakeState", state);
+        SmartDashboard.putNumber("FrontIntakeAngleSpeed", angleMotorSpeed);
+        SmartDashboard.putNumber("FrontIntakeRollerSpeed", rollerMotorSpeed);
     }
 }

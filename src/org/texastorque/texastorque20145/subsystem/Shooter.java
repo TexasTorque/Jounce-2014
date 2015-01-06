@@ -74,5 +74,6 @@ public class Shooter extends Subsystem {
     public void pushToDashboard() {
         SmartDashboard.putNumber("RPM", currentRPM);
         SmartDashboard.putNumber("TargetRPM", targetRPM);
+        SmartDashboard.putNumber("ShooterMotorSpeed", shooterMotorSpeed);
     }
 }

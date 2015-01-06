@@ -10,6 +10,9 @@ public class Clapper extends Subsystem {
 
     private Solenoid frontClapper;
     private Solenoid rearClapper;
+    
+    private boolean frontUp;
+    private boolean rearUp;
 
     public final static int DOWN = 0;
     public final static int FRONT_OUTTAKE = 1;
@@ -28,32 +31,39 @@ public class Clapper extends Subsystem {
 
         switch (state) {
             case DOWN:
-                frontClapper.set(false);
-                rearClapper.set(false);
+                frontUp = false;
+                rearUp = false;
                 break;
             case FRONT_OUTTAKE:
-                frontClapper.set(false);
-                rearClapper.set(true);
+                frontUp = false;
+                rearUp = true;
                 break;
             case REAR_OUTTAKE:
-                frontClapper.set(true);
-                rearClapper.set(false);
+                frontUp = true;
+                rearUp = false;
                 break;
             case SHOOT:
                 if (feedback.isShooterSpunUp()) {
-                    if (!frontClapper.get()) {
+                    if (!frontUp) {
                         frontUpTime = Timer.getFPGATimestamp();
                     }
-                    frontClapper.set(true);
+                    frontUp = true;
                     if (Timer.getFPGATimestamp() - Constants.shootDifference.getDouble() > frontUpTime) {
-                        rearClapper.set(true);
+                        rearUp = true;
+                    } else {
+                        rearUp = false;
                     }
                 }
                 break;
             default:
-                frontClapper.set(false);
-                rearClapper.set(false);
+                frontUp = false;
+                rearUp = false;
                 break;
+        }
+        
+        if (outputEnabled) {
+            frontClapper.set(frontUp);
+            rearClapper.set(rearUp);
         }
     }
 

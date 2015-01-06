@@ -12,6 +12,10 @@ public class Drivebase extends Subsystem {
     private Motor right;
     private Solenoid shifter;
     
+    private double leftSpeed;
+    private double rightSpeed;
+    private boolean shiftState;
+    
     public Drivebase()
     {
         left = new Motor(new Victor(Ports.LEFT_DRIVE_PORT), false);
@@ -20,18 +24,22 @@ public class Drivebase extends Subsystem {
     }
 
     public void update() {
+        leftSpeed = input.getLeftSpeed();
+        rightSpeed = input.getRightSpeed();
+        shiftState = input.getGear();
+        
         if (outputEnabled)
         {
-            left.set(input.getLeftSpeed());
-            right.set(input.getRightSpeed());
-            shifter.set(input.getGear());
+            left.set(leftSpeed);
+            right.set(rightSpeed);
+            shifter.set(shiftState);
         }
     }
 
     public void pushToDashboard()
     {
-        SmartDashboard.putNumber("LeftSpeed", input.getLeftSpeed());
-        SmartDashboard.putNumber("RightSpeed", input.getRightSpeed());
-        SmartDashboard.putBoolean("Gear", input.getGear());
+        SmartDashboard.putNumber("LeftSpeed", leftSpeed);
+        SmartDashboard.putNumber("RightSpeed", rightSpeed);
+        SmartDashboard.putBoolean("Gear", shiftState);
     }
 }
