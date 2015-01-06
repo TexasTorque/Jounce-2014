@@ -1,6 +1,7 @@
 package org.texastorque.texastorque20145;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Watchdog;
 import org.texastorque.texastorque20145.autonomous.AutoMode;
 import org.texastorque.texastorque20145.autonomous.AutoPicker;
 import org.texastorque.texastorque20145.constants.Ports;
@@ -18,7 +19,9 @@ import org.texastorque.texastorque20145.torquelib.Parameters;
 public class Robot extends TorqueIterative {
 
     Parameters params;
+    Watchdog watchdog;
 
+    // Subsystems
     Drivebase drivebase;
     Shooter shooter;
     Clapper clapper;
@@ -27,6 +30,7 @@ public class Robot extends TorqueIterative {
 
     Compressor compressor;
 
+    // Input
     InputSystem input;
     InputSystem driverInput;
 
@@ -36,7 +40,10 @@ public class Robot extends TorqueIterative {
     Thread AutoThread;
 
     public void robotInit() {
-        getWatchdog().feed();
+        watchdog = getWatchdog();
+        watchdog.setEnabled(true);
+        watchdog.setExpiration(0.5);
+        watchdog.feed();
         
         params = new Parameters();
         params.load();
@@ -55,35 +62,46 @@ public class Robot extends TorqueIterative {
         sensorFeedback = new SensorFeedback();
         feedback = sensorFeedback;
     }
-
-    public void teleopInit() {
-        getWatchdog().feed();
-        
-        params.load();
-        compressor.start();
-
+    
+    private void updateSubsystems(boolean enable)
+    {
         drivebase.setInputSystem(input);
-        drivebase.enableOutput(true);
+        drivebase.enableOutput(enable);
 
         shooter.setInputSystem(input);
         shooter.setFeedbackSystem(feedback);
         shooter.updateGains();
+        shooter.enableOutput(enable);
 
         clapper.setInputSystem(input);
         clapper.setFeedbackSystem(feedback);
         clapper.updateGains();
+        clapper.enableOutput(enable);
 
         rearIntake.setInputSystem(input);
         rearIntake.setFeedbackSystem(feedback);
         rearIntake.updateGains();
+        rearIntake.enableOutput(enable);
 
         frontIntake.setInputSystem(input);
         frontIntake.setFeedbackSystem(feedback);
         frontIntake.updateGains();
+        frontIntake.enableOutput(enable);
+    }
+
+    // ---------- TeleOP ----------
+    
+    public void teleopInit() {
+        watchdog.feed();
+        
+        params.load();
+        compressor.start();
+
+        updateSubsystems(true);
     }
 
     public void teleopPeriodic() {
-        getWatchdog().feed();
+        watchdog.feed();
         
         input.run();
         feedback.run();
@@ -96,7 +114,7 @@ public class Robot extends TorqueIterative {
     }
 
     public void teleopContinuous() {
-        getWatchdog().feed();
+        watchdog.feed();
         
         drivebase.pushToDashboard();
         shooter.pushToDashboard();
@@ -105,41 +123,27 @@ public class Robot extends TorqueIterative {
         frontIntake.pushToDashboard();
     }
 
+    // ---------- Autonomous ----------
+    
     public void autonomousInit() {
-        getWatchdog().feed();
+        watchdog.feed();
         
         params.load();
 
         feedback = sensorFeedback;
+        
         AutoMode autoInput = AutoPicker.getAutoMode();
         autoInput.setFeedBackSystem(feedback);
+        input = autoInput;
 
-        drivebase.setFeedbackSystem(feedback);
-        drivebase.setInputSystem(autoInput);
-        drivebase.enableOutput(true);
-        
-        shooter.setInputSystem(input);
-        shooter.setFeedbackSystem(feedback);
-        shooter.updateGains();
-
-        clapper.setInputSystem(input);
-        clapper.setFeedbackSystem(feedback);
-        clapper.updateGains();
-
-        rearIntake.setInputSystem(input);
-        rearIntake.setFeedbackSystem(feedback);
-        rearIntake.updateGains();
-
-        frontIntake.setInputSystem(input);
-        frontIntake.setFeedbackSystem(feedback);
-        frontIntake.updateGains();
+        updateSubsystems(true);
 
         AutoThread = new Thread(autoInput);
         AutoThread.start();
     }
 
     public void autonomousPeriodic() {
-        getWatchdog().feed();
+        watchdog.feed();
         
         input.run();
         feedback.run();
@@ -151,31 +155,29 @@ public class Robot extends TorqueIterative {
         frontIntake.update();
     }
 
+    public void autonomousContinuous() {
+        watchdog.feed();
+        
+        drivebase.pushToDashboard();
+        shooter.pushToDashboard();
+        clapper.pushToDashboard();
+        rearIntake.pushToDashboard();
+        frontIntake.pushToDashboard();
+    }
+    
+    // ---------- Disabled ----------
+
     public void disabledInit() {
-        getWatchdog().feed();
+        watchdog.feed();
         
-        drivebase.setFeedbackSystem(feedback);
-        drivebase.setInputSystem(driverInput);
+        input = driverInput;
+        feedback = sensorFeedback;
         
-        shooter.setInputSystem(input);
-        shooter.setFeedbackSystem(feedback);
-        shooter.updateGains();
-
-        clapper.setInputSystem(input);
-        clapper.setFeedbackSystem(feedback);
-        clapper.updateGains();
-
-        rearIntake.setInputSystem(input);
-        rearIntake.setFeedbackSystem(feedback);
-        rearIntake.updateGains();
-
-        frontIntake.setInputSystem(input);
-        frontIntake.setFeedbackSystem(feedback);
-        frontIntake.updateGains();
+        updateSubsystems(false);
     }
 
     public void disabledPeriodic() {
-        getWatchdog().feed();
+        watchdog.feed();
         
         input.run();
         feedback.run();
@@ -190,7 +192,7 @@ public class Robot extends TorqueIterative {
     }
     
     public void disabledContinuous() {
-        getWatchdog().feed();
+        watchdog.feed();
         
         drivebase.pushToDashboard();
         shooter.pushToDashboard();
@@ -198,9 +200,16 @@ public class Robot extends TorqueIterative {
         rearIntake.pushToDashboard();
         frontIntake.pushToDashboard();
     }
+    
+    // ---------- Test ----------
 
     public void testInit() {
-        getWatchdog().feed();
+        watchdog.feed();
+        
+        input = driverInput;
+        feedback = sensorFeedback;
+        
+        updateSubsystems(false);
     }
 
 }
