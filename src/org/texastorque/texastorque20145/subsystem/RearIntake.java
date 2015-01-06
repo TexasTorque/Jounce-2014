@@ -40,7 +40,6 @@ public class RearIntake extends Subsystem {
 
     public void update() {
         backWallPosition = input.backWallIsOpen();
-        backWallSolenoid.set(backWallPosition);
 
         state = input.getRearIntakeState();
 
@@ -91,6 +90,7 @@ public class RearIntake extends Subsystem {
         }
 
         if (outputEnabled) {
+            backWallSolenoid.set(backWallPosition);
             angleMotor.set(angleMotorSpeed);
             rollerMotor.set(rollerMotorSpeed);
         }
