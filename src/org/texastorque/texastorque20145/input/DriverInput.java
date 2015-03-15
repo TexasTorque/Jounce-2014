@@ -16,9 +16,9 @@ public class DriverInput extends InputSystem {
     double oldWheel, quickStopAccumulator, negInertiaAccumulator;
 
     public DriverInput() {
-        driver = new GenericController(1, GenericController.XBOX, 0.1);
-        operator = new GenericController(2, GenericController.XBOX, 0.0);
-        
+        driver = new GenericController(1, GenericController.TYPE_XBOX, 0.1);
+        operator = new GenericController(2, GenericController.TYPE_XBOX, 0.0);
+
         oldWheel = 0.0;
         quickStopAccumulator = 0.0;
     }
@@ -90,13 +90,12 @@ public class DriverInput extends InputSystem {
         linearPower = throttle;
 
         double overPower;
-        
+
         // Quickturn!
         if (isQuickTurn) {
             if (Math.abs(linearPower) < 0.2) {
                 double alpha = 0.1;
-                double w = 
-                quickStopAccumulator = (1 - alpha) * quickStopAccumulator + alpha
+                double w = quickStopAccumulator = (1 - alpha) * quickStopAccumulator + alpha
                         * ((Math.abs(wheel) < 1) ? wheel : (wheel < 0) ? -1 : 1) * 5;
             }
             overPower = 1.0;
@@ -135,11 +134,10 @@ public class DriverInput extends InputSystem {
             leftPwm += overPower * (-1.0 - rightPwm);
             rightPwm = -1.0;
         }
-        
+
         leftSpeed = leftPwm;
         rightSpeed = rightPwm;
 
-        
         //Manipulator
         backWallOpen = true;
 
