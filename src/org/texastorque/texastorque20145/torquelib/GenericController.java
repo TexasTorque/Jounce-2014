@@ -2,22 +2,43 @@ package org.texastorque.texastorque20145.torquelib;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class GenericController extends Joystick {
+/**
+ * A class that reads input from either a Logitech or Xbox controller.
+ *
+ * @author TexasTorque
+ */
+public final class GenericController extends Joystick {
 
-    public static final boolean LOGITECH = true;
-    public static final boolean XBOX = false;
+    public static final int TYPE_LOGITECH = 1;
+    public static final int TYPE_XBOX = 2;
 
-    private boolean isLogitechController;
-
+    private int[] controllerMap;
+    private int controllerType;
     private double deadband;
 
-    public GenericController(int port, boolean isLogitech, double dband) {
+    /**
+     * Create a new controller.
+     *
+     * @param port Which Driver Station port the controller is in (use
+     * constant).
+     * @param type Type of controller.
+     * @param dband The size of the deadband.
+     */
+    public GenericController(int port, int type, double dband) {
         super(port);
-        isLogitechController = isLogitech;
+        controllerType = type;
         deadband = Math.min(1, Math.abs(dband));
+
+        setType(controllerType);
     }
 
-    //scales inputs [deadband, 1] to [0, 1]
+    /**
+     * Scale the input value 0 to 1 so that inputs less than the deadband are
+     * possible. We need this for terrible controller with huge deadzones.
+     *
+     * @param input The raw joystick value.
+     * @return The scaled joystick value.
+     */
     private double scaleInput(double input) {
         if (Math.abs(input) > deadband) {
             if (input > 0) {
@@ -29,170 +50,115 @@ public class GenericController extends Joystick {
             return 0.0;
         }
     }
-    
-    public double getRawAxis(int port)
-    {
-        try {
-            return super.getRawAxis(port);
-        } catch (Exception e)
-        {
-            return 0.0;
-        }
-    }
 
+    /**
+     * Set the deadband of the controller.
+     *
+     * @param dband The new deadband to use.
+     */
     public void setDeadband(double dband) {
         deadband = Math.min(1, Math.abs(dband));
     }
 
-    public synchronized void setType(boolean isLog) {
-        isLogitechController = isLog;
+    /**
+     * Change controller type. Will default to Xbox if an incorrect type is
+     * given.
+     *
+     * @param type New controller type.
+     */
+    public synchronized void setType(int type) {
+        controllerType = type;
+        switch (type) {
+            case TYPE_LOGITECH:
+                controllerMap = new int[]{2, 1, 4, 3, 5, 5, 11, 12, 5, 6, 7, 8, 9, 10, 1, 4, 3, 2};
+                break;
+            case TYPE_XBOX:
+                controllerMap = new int[]{2, 1, 5, 4, 4, 6, 9, 10, 5, 6, 3, 3, 7, 8, 3, 4, 2, 1};
+                break;
+            default:
+                //default to xbox
+                controllerMap = new int[]{2, 1, 5, 4, 4, 6, 9, 10, 5, 6, 3, 3, 7, 8, 3, 4, 2, 1};
+                controllerType = TYPE_XBOX;
+        }
     }
 
-    public synchronized boolean isLogitech() {
-        return isLogitechController;
+    public synchronized int getType() {
+        return controllerType;
     }
 
     public synchronized double getLeftYAxis() {
-        if (isLogitechController) {
-            return scaleInput(getRawAxis(2));
-        } else {
-            return scaleInput(getRawAxis(2));
-        }
+        return scaleInput(getRawAxis(controllerMap[0]));
     }
 
     public synchronized double getLeftXAxis() {
-        if (isLogitechController) {
-            return scaleInput(getRawAxis(1));
-        } else {
-            return scaleInput(getRawAxis(1));
-        }
+        return scaleInput(getRawAxis(controllerMap[1]));
     }
 
     public synchronized double getRightYAxis() {
-        if (isLogitechController) {
-            return scaleInput(getRawAxis(4));
-        } else {
-            return scaleInput(getRawAxis(5));
-        }
+        return scaleInput(getRawAxis(controllerMap[2]));
     }
 
     public synchronized double getRightXAxis() {
-        if (isLogitechController) {
-            return scaleInput(getRawAxis(3));
-        } else {
-            return scaleInput(getRawAxis(5));
-        }
-    }
-
-    public synchronized boolean getLeftDPAD() {
-        if (isLogitechController) {
-            return (getRawAxis(5) > 0.0);
-        } else {
-            return (getRawAxis(6) > 0.0);
-        }
-    }
-
-    public synchronized boolean getRightDPAD() {
-        if (isLogitechController) {
-            return (getRawAxis(5) < 0.0);
-        } else {
-            return (getRawAxis(6) < 0.0);
-        }
+        return scaleInput(getRawAxis(controllerMap[3]));
     }
 
     public synchronized boolean getLeftStickClick() {
-        if (isLogitechController) {
-            return getRawButton(11);
-        } else {
-            return getRawButton(9);
-        }
+        return getRawButton(controllerMap[6]);
     }
 
     public synchronized boolean getRightStickClick() {
-        if (isLogitechController) {
-            return getRawButton(12);
-        } else {
-            return getRawButton(10);
-        }
+        return getRawButton(controllerMap[7]);
     }
 
     public synchronized boolean getLeftBumper() {
-        if (isLogitechController) {
-            return getRawButton(5);
-        } else {
-            return getRawButton(5);
-        }
+        return getRawButton(controllerMap[8]);
     }
 
     public synchronized boolean getRightBumper() {
-        if (isLogitechController) {
-            return getRawButton(6);
-        } else {
-            return getRawButton(6);
-        }
+        return getRawButton(controllerMap[9]);
     }
 
     public synchronized boolean getLeftTrigger() {
-        if (isLogitechController) {
-            return getRawButton(7);
+        if (controllerType == TYPE_LOGITECH) {
+            return getRawButton(controllerMap[10]);
+        } else if (controllerType == TYPE_XBOX) {
+            return (getRawAxis(controllerMap[10]) > 0.2);
         } else {
-            return (getRawAxis(3) > 0.2);
+            return false;
         }
     }
 
     public synchronized boolean getRightTrigger() {
-        if (isLogitechController) {
-            return getRawButton(8);
+        if (controllerType == TYPE_LOGITECH) {
+            return getRawButton(controllerMap[11]);
+        } else if (controllerType == TYPE_XBOX) {
+            return (getRawAxis(controllerMap[11]) > 0.2);
         } else {
-            return (getRawAxis(4) > 0.5);
+            return false;
         }
     }
 
-    public synchronized boolean getLeftCenterButton() {
-        if (isLogitechController) {
-            return getRawButton(9);
-        } else {
-            return getRawButton(7);
-        }
+    public synchronized boolean getLeftCenterButton() {//on
+        return getRawButton(controllerMap[12]);
     }
 
     public synchronized boolean getRightCenterButton() {
-        if (isLogitechController) {
-            return getRawButton(10);
-        } else {
-            return getRawButton(8);
-        }
+        return getRawButton(controllerMap[13]);
     }
 
     public synchronized boolean getXButton() {
-        if (isLogitechController) {
-            return getRawButton(1);
-        } else {
-            return getRawButton(3);
-        }
+        return getRawButton(controllerMap[14]);
     }
 
     public synchronized boolean getYButton() {
-        if (isLogitechController) {
-            return getRawButton(4);
-        } else {
-            return getRawButton(4);
-        }
+        return getRawButton(controllerMap[15]);
     }
 
     public synchronized boolean getBButton() {
-        if (isLogitechController) {
-            return getRawButton(3);
-        } else {
-            return getRawButton(2);
-        }
+        return getRawButton(controllerMap[16]);
     }
 
     public synchronized boolean getAButton() {
-        if (isLogitechController) {
-            return getRawButton(2);
-        } else {
-            return getRawButton(1);
-        }
+        return getRawButton(controllerMap[17]);
     }
 }
